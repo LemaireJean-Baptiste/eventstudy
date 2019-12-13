@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Get Started &#8212; Event Study 0.1a documentation</title>
+    <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api/index.html" />
+    <link rel="prev" title="Event Study package" href="index.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api/index.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Event Study package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Event Study 0.1a documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Contents</h2>
+    <div class="sidebar-localtoc">
+      <ul>
+<li><a class="reference internal" href="#">Get Started</a><ul>
+<li><a class="reference internal" href="#preliminary-work">Preliminary work</a></li>
+<li><a class="reference internal" href="#example-1-a-single-event">Example 1: A single event</a></li>
+<li><a class="reference internal" href="#example-2-a-sample-of-events">Example 2: A sample of events</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Event Study package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api/index.html"
+                        title="next chapter">API</a></p>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Docs</a></li>
+              
+              <li>Get Started</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="get-started">
+<h1>Get Started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h1>
+<p>Through two examples, we will discover how to perform
+an event study analysis on a single event or on a sample of event.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#preliminary-work" id="id1">Preliminary work</a></p></li>
+<li><p><a class="reference internal" href="#example-1-a-single-event" id="id2">Example 1: A single event</a></p></li>
+<li><p><a class="reference internal" href="#example-2-a-sample-of-events" id="id3">Example 2: A sample of events</a></p></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use the <a class="reference external" href="http://127.0.0.1:8888/notebooks/Documents/IESEG/Me%CC%81moire/Class/Documentation-example.ipynb">interactive version</a> of this tutorial to play yourself with the functions.</p>
+</div>
+<div class="section" id="preliminary-work">
+<h2><a class="toc-backref" href="#id1">Preliminary work</a><a class="headerlink" href="#preliminary-work" title="Permalink to this headline">¶</a></h2>
+<ol>
+<li><p>Load the <code class="docutils literal notranslate"><span class="pre">eventstudy</span></code> module and its dependencies: <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eventstudy</span> <span class="k">as</span> <span class="nn">es</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</li>
+<li><p>Set the parameters needed for your events:
+the returns and Fama-French factors (using <code class="docutils literal notranslate"><span class="pre">es.EventStudy.import_returns()</span></code>and <code class="docutils literal notranslate"><span class="pre">es.EventStudy.import_FamaFrench()</span></code>):</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">es</span><span class="o">.</span><span class="n">EventStudy</span><span class="o">.</span><span class="n">import_returns</span><span class="p">(</span><span class="s1">&#39;returns.csv&#39;</span><span class="p">)</span>
+<span class="n">es</span><span class="o">.</span><span class="n">EventStudy</span><span class="o">.</span><span class="n">import_FamaFrench</span><span class="p">(</span><span class="s1">&#39;famafrench.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="example-1-a-single-event">
+<h2><a class="toc-backref" href="#id2">Example 1: A single event</a><a class="headerlink" href="#example-1-a-single-event" title="Permalink to this headline">¶</a></h2>
+<p>As an introductory example, we will compute the event study
+analysis of the announcement of the first iphone,
+made by Steve Jobs during MacWorld exhibition, on January 7, 2007.</p>
+<ol>
+<li><p>Run the event study, here using the Fama-French 3-factor model:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">event</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">EventStudy</span><span class="o">.</span><span class="n">FamaFrench_3factor</span><span class="p">(</span>
+    <span class="n">security_ticker</span> <span class="o">=</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span>
+    <span class="n">event_date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2013-03-04&#39;</span><span class="p">),</span>
+    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">+</span><span class="mi">10</span><span class="p">),</span> 
+    <span class="n">estimation_size</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="n">buffer_size</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can easily play with the parameter and adjust the event study analysis to your need.</p>
+<p>See the documentation on this <a class="reference external" href="api/EventStudy.html#FamaFrench_3factor">FamaFrench_3factor function</a> for more details.</p>
+<p>See also <a class="reference external" href="api/EventStudy.html#Models">other models function</a>.
+You can even <a class="reference external" href="extend.html">set your own modelisation functions</a></p>
+</div>
+<ol>
+<li><p>Display results:</p>
+<ul class="simple">
+<li><p>In a plot:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">event</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">AR</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> <span class="c1"># use standard matplotlib function to display the plot</span>
+</pre></div>
+</div>
+<p><img alt="Single event plot" src="_images/single_event_plot.png" />
+<em>grey area: confidence interval (here at 90%); blue line: CAAR; black bars: AR</em></p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can remove the confidence interval (set <cite>CI = False</cite>) or
+change its level of confidence (set <cite>confidence = .95</cite> for a confidence interval at 95%).
+By default AR are note display, but by setting <cite>AR</cite> to <cite>True</cite> you can add them to the plot.</p>
+<p>See the documentation on this <a class="reference external" href="api/EventStudy.html#plot">plot function</a> for more details.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- Or in a table:
+```Python
+event.results(decimals=[3,5,3,5,2,2])
+```
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="right"></th>
+<th align="right">AR</th>
+<th align="right">Variance AR</th>
+<th align="left">CAR</th>
+<th align="right">Variance CAR</th>
+<th align="right">T-stat</th>
+<th align="right">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">-5</td>
+<td align="right">-0.053</td>
+<td align="right">0.00048</td>
+<td align="left">-0.053 **</td>
+<td align="right">0.00048</td>
+<td align="right">-2.42</td>
+<td align="right">0.01</td>
+</tr>
+<tr>
+<td align="right">-4</td>
+<td align="right">0.012</td>
+<td align="right">0.00048</td>
+<td align="left">-0.041 *</td>
+<td align="right">0.00096</td>
+<td align="right">-1.33</td>
+<td align="right">0.09</td>
+</tr>
+<tr>
+<td align="right">-3</td>
+<td align="right">-0.013</td>
+<td align="right">0.00048</td>
+<td align="left">-0.055 *</td>
+<td align="right">0.00144</td>
+<td align="right">-1.43</td>
+<td align="right">0.08</td>
+</tr>
+<tr>
+<td align="right">-2</td>
+<td align="right">0.004</td>
+<td align="right">0.00048</td>
+<td align="left">-0.051</td>
+<td align="right">0.00192</td>
+<td align="right">-1.15</td>
+<td align="right">0.13</td>
+</tr>
+<tr>
+<td align="right">-1</td>
+<td align="right">0</td>
+<td align="right">0.00048</td>
+<td align="left">-0.051</td>
+<td align="right">0.00241</td>
+<td align="right">-1.03</td>
+<td align="right">0.15</td>
+</tr>
+<tr>
+<td align="right">0</td>
+<td align="right">-0.077</td>
+<td align="right">0.00048</td>
+<td align="left">-0.128 **</td>
+<td align="right">0.00289</td>
+<td align="right">-2.37</td>
+<td align="right">0.01</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">-0.039</td>
+<td align="right">0.00048</td>
+<td align="left">-0.167 ***</td>
+<td align="right">0.00337</td>
+<td align="right">-2.88</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">0.027</td>
+<td align="right">0.00048</td>
+<td align="left">-0.14 **</td>
+<td align="right">0.00385</td>
+<td align="right">-2.26</td>
+<td align="right">0.01</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">0.024</td>
+<td align="right">0.00048</td>
+<td align="left">-0.116 **</td>
+<td align="right">0.00433</td>
+<td align="right">-1.77</td>
+<td align="right">0.04</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">-0.024</td>
+<td align="right">0.00048</td>
+<td align="left">-0.14 **</td>
+<td align="right">0.00481</td>
+<td align="right">-2.02</td>
+<td align="right">0.02</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td align="right">0.023</td>
+<td align="right">0.00048</td>
+<td align="left">-0.117 *</td>
+<td align="right">0.00529</td>
+<td align="right">-1.61</td>
+<td align="right">0.05</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td align="right">0.057</td>
+<td align="right">0.00048</td>
+<td align="left">-0.06</td>
+<td align="right">0.00577</td>
+<td align="right">-0.79</td>
+<td align="right">0.21</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td align="right">0.011</td>
+<td align="right">0.00048</td>
+<td align="left">-0.049</td>
+<td align="right">0.00626</td>
+<td align="right">-0.62</td>
+<td align="right">0.27</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td align="right">0.011</td>
+<td align="right">0.00048</td>
+<td align="left">-0.038</td>
+<td align="right">0.00674</td>
+<td align="right">-0.46</td>
+<td align="right">0.32</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td align="right">0.017</td>
+<td align="right">0.00048</td>
+<td align="left">-0.021</td>
+<td align="right">0.00722</td>
+<td align="right">-0.24</td>
+<td align="right">0.4</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td align="right">0.003</td>
+<td align="right">0.00048</td>
+<td align="left">-0.018</td>
+<td align="right">0.0077</td>
+<td align="right">-0.2</td>
+<td align="right">0.42</td>
+</tr>
+<tr>
+<td align="right">11</td>
+<td align="right">-0.01</td>
+<td align="right">0.00048</td>
+<td align="left">-0.028</td>
+<td align="right">0.00818</td>
+<td align="right">-0.31</td>
+<td align="right">0.38</td>
+</tr>
+<tr>
+<td align="right">12</td>
+<td align="right">0.008</td>
+<td align="right">0.00048</td>
+<td align="left">-0.02</td>
+<td align="right">0.00866</td>
+<td align="right">-0.21</td>
+<td align="right">0.42</td>
+</tr>
+<tr>
+<td align="right">13</td>
+<td align="right">-0.009</td>
+<td align="right">0.00048</td>
+<td align="left">-0.028</td>
+<td align="right">0.00914</td>
+<td align="right">-0.3</td>
+<td align="right">0.38</td>
+</tr>
+<tr>
+<td align="right">14</td>
+<td align="right">0.012</td>
+<td align="right">0.00048</td>
+<td align="left">-0.016</td>
+<td align="right">0.00962</td>
+<td align="right">-0.16</td>
+<td align="right">0.43</td>
+</tr>
+<tr>
+<td align="right">15</td>
+<td align="right">0.011</td>
+<td align="right">0.00048</td>
+<td align="left">-0.005</td>
+<td align="right">0.01011</td>
+<td align="right">-0.05</td>
+<td align="right">0.48</td>
+</tr>
+<tr>
+<td align="right">16</td>
+<td align="right">0.024</td>
+<td align="right">0.00048</td>
+<td align="left">0.018</td>
+<td align="right">0.01059</td>
+<td align="right">0.18</td>
+<td align="right">0.43</td>
+</tr>
+<tr>
+<td align="right">17</td>
+<td align="right">0.001</td>
+<td align="right">0.00048</td>
+<td align="left">0.019</td>
+<td align="right">0.01107</td>
+<td align="right">0.18</td>
+<td align="right">0.43</td>
+</tr>
+<tr>
+<td align="right">18</td>
+<td align="right">0.009</td>
+<td align="right">0.00048</td>
+<td align="left">0.028</td>
+<td align="right">0.01155</td>
+<td align="right">0.26</td>
+<td align="right">0.4</td>
+</tr>
+<tr>
+<td align="right">19</td>
+<td align="right">-0.002</td>
+<td align="right">0.00048</td>
+<td align="left">0.026</td>
+<td align="right">0.01203</td>
+<td align="right">0.24</td>
+<td align="right">0.41</td>
+</tr>
+<tr>
+<td align="right">20</td>
+<td align="right">-0.02</td>
+<td align="right">0.00048</td>
+<td align="left">0.006</td>
+<td align="right">0.01251</td>
+<td align="right">0.06</td>
+<td align="right">0.48</td>
+</tr>
+</tbody>
+</table><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Stars are added automatically to represent the level of significance
+(Significance level: *** at 99%, ** at 95%, * at 90%). 
+You can remove stars by setting <cite>stars</cite> parameter at <cite>False</cite>.</p>
+<p><cite>decimals</cite> is a list of integer setting for each column (except index) the rounding decimal. 
+You can also set one integer (e.g. <cite>decimals = 3</cite>) if you want all columns to be rounded the same.</p>
+<p>See the documentation on this <a class="reference external" href="api/EventStudy.html#results">results function</a> for more details.</p>
+</div>
+</div>
+<div class="section" id="example-2-a-sample-of-events">
+<h2><a class="toc-backref" href="#id3">Example 2: A sample of events</a><a class="headerlink" href="#example-2-a-sample-of-events" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="index.html" title="previous chapter (use the left arrow)">Event Study package</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="api/index.html" title="next chapter (use the right arrow)">API</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="api/index.html" title="API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Event Study package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Event Study 0.1a documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2019, Jean-Baptiste Lemaire, BSD license. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>EventStudy Class &#8212; Event Study 0.1a documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="eventstudy.EventStudy.market_model" href="eventstudy.EventStudy.market_model.html" />
+    <link rel="prev" title="API" href="index.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="eventstudy.EventStudy.market_model.html" title="eventstudy.EventStudy.market_model"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Contents</h2>
+    <div class="sidebar-localtoc">
+      <ul>
+<li><a class="reference internal" href="#">EventStudy Class</a><ul>
+<li><a class="reference internal" href="#run-the-event-study">Run the event study</a></li>
+<li><a class="reference internal" href="#import-data">Import data</a></li>
+<li><a class="reference internal" href="#retrieve-results">Retrieve results</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="eventstudy.EventStudy.market_model.html"
+                        title="next chapter">eventstudy.EventStudy.market_model</a></p>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+                <li><a href="index.html">API</a></li>
+              
+              <li>EventStudy Class</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="eventstudy-class">
+<h1>EventStudy Class<a class="headerlink" href="#eventstudy-class" title="Permalink to this headline">¶</a></h1>
+<p>Event Study core object. Implement the classical event study methodology <a class="footnote-reference brackets" href="#id3" id="id1">1</a> for a single event.
+This implementation heavily rely on the work of MacKinlay <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#run-the-event-study" id="id5">Run the event study</a></p></li>
+<li><p><a class="reference internal" href="#import-data" id="id6">Import data</a></p></li>
+<li><p><a class="reference internal" href="#retrieve-results" id="id7">Retrieve results</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id8">References</a></p></li>
+</ul>
+</div>
+<div class="section" id="run-the-event-study">
+<h2><a class="toc-backref" href="#id5">Run the event study</a><a class="headerlink" href="#run-the-event-study" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy</span></code></p></td>
+<td><p>Low-level way of runing an event study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.market_model.html#eventstudy.EventStudy.market_model" title="eventstudy.EventStudy.market_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.market_model</span></code></a></p></td>
+<td><p>Modelise returns with the market model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.constant_mean.html#eventstudy.EventStudy.constant_mean" title="eventstudy.EventStudy.constant_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.constant_mean</span></code></a></p></td>
+<td><p>Modelise returns with the constant mean model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.FamaFrench_3factor.html#eventstudy.EventStudy.FamaFrench_3factor" title="eventstudy.EventStudy.FamaFrench_3factor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.FamaFrench_3factor</span></code></a></p></td>
+<td><p>Modelise returns with the Fama-French 3-factor model.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="import-data">
+<h2><a class="toc-backref" href="#id6">Import data</a><a class="headerlink" href="#import-data" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.import_FamaFrench.html#eventstudy.EventStudy.import_FamaFrench" title="eventstudy.EventStudy.import_FamaFrench"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.import_FamaFrench</span></code></a></p></td>
+<td><p>Import returns from csv file to EventStudy Class parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.import_returns.html#eventstudy.EventStudy.import_returns" title="eventstudy.EventStudy.import_returns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.import_returns</span></code></a></p></td>
+<td><p>Import returns from csv file to EventStudy Class parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.import_returns_from_API.html#eventstudy.EventStudy.import_returns_from_API" title="eventstudy.EventStudy.import_returns_from_API"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.import_returns_from_API</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="retrieve-results">
+<h2><a class="toc-backref" href="#id7">Retrieve results</a><a class="headerlink" href="#retrieve-results" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.plot.html#eventstudy.EventStudy.plot" title="eventstudy.EventStudy.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.plot</span></code></a></p></td>
+<td><p>Plot the event study result.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="functions/eventstudy.EventStudy.results.html#eventstudy.EventStudy.results" title="eventstudy.EventStudy.results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.EventStudy.results</span></code></a></p></td>
+<td><p>Give event study result in a table format.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="references">
+<h2><a class="toc-backref" href="#id8">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Fama, E. F., L. Fisher, M. C. Jensen, and R. Roll (1969). 
+“The Adjustment of Stock Prices to New Information”.
+In: International Economic Review 10.1, pp. 1–21.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Mackinlay, A. (1997). “Event Studies in Economics and Finance”.
+In: Journal of Economic Literature 35.1, p. 13.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="index.html" title="previous chapter (use the left arrow)">API</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="eventstudy.EventStudy.market_model.html" title="next chapter (use the right arrow)">eventstudy.EventStudy.market_model</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="eventstudy.EventStudy.market_model.html" title="eventstudy.EventStudy.market_model"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="API"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2019, Jean-Baptiste Lemaire, BSD license. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

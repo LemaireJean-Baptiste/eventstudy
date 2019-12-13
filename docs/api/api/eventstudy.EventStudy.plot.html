@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>eventstudy.EventStudy.plot &#8212; Event Study 0.1a documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Event Study 0.1a documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+              <li>eventstudy.EventStudy.plot</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="eventstudy-eventstudy-plot">
+<h1>eventstudy.EventStudy.plot<a class="headerlink" href="#eventstudy-eventstudy-plot" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="eventstudy.EventStudy.plot">
+<code class="sig-prename descclassname">EventStudy.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">AR=False</em>, <em class="sig-param">CI=True</em>, <em class="sig-param">confidence=0.9</em><span class="sig-paren">)</span><a class="headerlink" href="#eventstudy.EventStudy.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the event study result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>AR</strong> (<em>bool</em><em>, </em><em>optional</em>) – Add to the figure a bar plot of AR, by default False</p></li>
+<li><p><strong>CI</strong> (<em>bool</em><em>, </em><em>optional</em>) – Display the confidence interval, by default True</p></li>
+<li><p><strong>confidence</strong> (<em>float</em><em>, </em><em>optional</em>) – Set the confidence level, by default 0.90</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Plot of CAR and AR (if specified).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib.figure</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function return a fully working matplotlib function.
+You can extend the figure and apply new set-up with matplolib’s method (e.g. savefig).</p>
+</div>
+<p class="rubric">Example</p>
+<p>Plot CAR (in blue) and AR (in black), with a confidence interval of 95% (in grey).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">EventStudy</span><span class="o">.</span><span class="n">market_model</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">security_ticker</span> <span class="o">=</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">market_ticker</span> <span class="o">=</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">event_date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2007-01-09&#39;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">event</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">AR</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">confidence</span> <span class="o">=</span> <span class="o">.</span><span class="mi">95</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/single_event_plot.png" src="../../_images/single_event_plot.png" />
+</dd></dl>
+
+</div>
+
+
+          </div>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Event Study 0.1a documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2019, Jean-Baptiste Lemaire, BSD license. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>
