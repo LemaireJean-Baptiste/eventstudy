@@ -20,7 +20,7 @@ from recommonmark.transform import AutoStructify
 import eventstudy as es 
 
 project = 'Event Study'
-copyright = f'2019, {es.__author__}, BSD license'
+copyright = f'2019, {es.__author__}, GNU General Public License v3 (GPLv3)'
 author = es.__author__
 display_version = True
 
@@ -77,6 +77,11 @@ import guzzle_sphinx_theme
 
 html_theme_path = guzzle_sphinx_theme.html_theme_path()
 html_theme = 'guzzle_sphinx_theme'
+
+# Custom sidebar templates, maps document names to template names.
+html_sidebars = {
+    '**': ['logo-text.html', 'globaltoc.html', 'searchbox.html']
+}
 
 # Register the theme as an extension to generate a sitemap.xml
 extensions.append("guzzle_sphinx_theme")

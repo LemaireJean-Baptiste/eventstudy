@@ -63,14 +63,14 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.
 
     ![Single event plot](_static/single_event_plot.png)
     *grey area: confidence interval (here at 90%); blue line: CAAR; black bars: AR*
-```eval_rst
-.. note::
-    You can remove the confidence interval (set `CI = False`) or
-    change its level of confidence (set `confidence = .95` for a confidence interval at 95%).
-    By default AR are note display, but by setting `AR` to `True` you can add them to the plot.
+    ```eval_rst
+    .. note::
+        You can remove the confidence interval (set `CI = False`) or
+        change its level of confidence (set `confidence = .95` for a confidence interval at 95%).
+        By default AR are note display, but by setting `AR` to `True` you can add them to the plot.
 
-    See the documentation on this `plot function <api/EventStudy.html#plot>`_ for more details.
-```
+        See the documentation on this `plot function <api/EventStudy.html#plot>`_ for more details.
+    ```
     - Or in a table:
     ```Python
     event.results(decimals=[3,5,3,5,2,2])

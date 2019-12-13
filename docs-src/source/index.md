@@ -1,21 +1,3 @@
-```eval_rst
-
-.. toctree::
-   :caption: Documentation
-   :maxdepth: 2
-   
-   Home <self>
-   get_started
-   api/index
-
-.. toctree::
-  :caption: Social
-  :maxdepth: 2
-
-  GitHub <https://github.com/LemaireJean-Baptiste/EventStudy>
-  contact
-```
-
 # Event Study package
 
 Event Study package is an open-source python project created 
@@ -37,3 +19,16 @@ Read the [API](api/index.md) for more details on functions and their parameters.
 ## Play with the interactive interface
 
 A user-friendly interface has been developped using [streamlit](https://streamlit.io/) and can be accessed [here](http://192.168.43.141:8501).
+
+## User Guide
+
+```eval_rst
+
+.. toctree::
+   :maxdepth: 3
+   
+   Home <self>
+   get_started
+   api/index
+   GitHub <https://github.com/LemaireJean-Baptiste/eventstudy>
+```

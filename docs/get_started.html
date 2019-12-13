@@ -51,29 +51,30 @@
         <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
       </div>
   <div id="left-column">
-    <div class="sphinxsidebar">
+    <div class="sphinxsidebar"><a href="
+    index.html" class="text-logo">Event Study</a>
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
-    <h2>Contents</h2>
-    <div class="sidebar-localtoc">
-      <ul>
-<li><a class="reference internal" href="#">Get Started</a><ul>
-<li><a class="reference internal" href="#preliminary-work">Preliminary work</a></li>
-<li><a class="reference internal" href="#example-1-a-single-event">Example 1: A single event</a></li>
-<li><a class="reference internal" href="#example-2-a-sample-of-events">Example 2: A sample of events</a></li>
+    <h2>Table Of Contents</h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Get Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preliminary-work">Preliminary work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-a-single-event">Example 1: A single event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-2-a-sample-of-events">Example 2: A sample of events</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
 </ul>
 
-    </div>
+    
   </div>
 </div>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Event Study package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="api/index.html"
-                        title="next chapter">API</a></p>
 <div class="sidebar-block">
   <div class="sidebar-wrapper">
     <div id="main-search">
@@ -172,8 +173,6 @@ You can even <a class="reference external" href="extend.html">set your own model
 </div>
 <p><img alt="Single event plot" src="_images/single_event_plot.png" />
 <em>grey area: confidence interval (here at 90%); blue line: CAAR; black bars: AR</em></p>
-</li>
-</ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can remove the confidence interval (set <cite>CI = False</cite>) or
@@ -181,12 +180,14 @@ change its level of confidence (set <cite>confidence = .95</cite> for a confiden
 By default AR are note display, but by setting <cite>AR</cite> to <cite>True</cite> you can add them to the plot.</p>
 <p>See the documentation on this <a class="reference external" href="api/EventStudy.html#plot">plot function</a> for more details.</p>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- Or in a table:
-```Python
-event.results(decimals=[3,5,3,5,2,2])
-```
+<ul class="simple">
+<li><p>Or in a table:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">event</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
+</li>
+</ol>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -490,7 +491,7 @@ You can also set one integer (e.g. <cite>decimals = 3</cite>) if you want all co
 </script>
 <script type="text/javascript" src="_static/js/bootstrap.js"></script>
   <div class="footer">
-    &copy; Copyright 2019, Jean-Baptiste Lemaire, BSD license. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    &copy; Copyright 2019, Jean-Baptiste Lemaire, GNU General Public License v3 (GPLv3). Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
   </div>
   </body>
 </html>
