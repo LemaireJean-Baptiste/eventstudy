@@ -9,9 +9,14 @@ SOURCEDIR     = source
 BUILDDIR      = build
 
 
+pdf:
+	@make latexpdf
+	@cp -a build/latex/eventstudy.pdf ../docs
+
 github:
 	@make html
 	@cp -a build/html/. ../docs
+	@make latexpdf
 
 # Put it first so that "make" without argument is like "make help".
 help:

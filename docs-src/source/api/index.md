@@ -1,11 +1,12 @@
 # API
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The package implements two classes [`Single`](eventstudy.Single) and [`Multiple`](eventstudy.Multiple)
+to compute event studies respectively on single events (with measures such as Abnormal Returns (AR)
+and Cumulative Abnormal Returns (CAR)) and on aggregates of events (with measures such as 
+Average Abnormal Returns (AAR) and Cumulative Abnormal Returns (CAAR)).
+
+The second class ([`Multiple`](eventstudy.Multiple)) relies on the first one ([`Single`](eventstudy.Single)) 
+as it basically performs a loop of single event studies and then aggregates them.
 
 ```eval_rst
 .. toctree::
@@ -13,6 +14,6 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
    :titlesonly:
    :glob:
 
-   EventStudy: For single event <EventStudy>
-   EventStudyBatch: For a sample of events <EventStudyBatch>
+   For a single event <eventstudy.Single>
+   For an aggregate of events <eventstudy.Multiple>
 ```

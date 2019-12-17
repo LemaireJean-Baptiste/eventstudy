@@ -1,7 +1,7 @@
 # Get Started
 
 Through two examples, we will discover how to perform 
-an event study analysis on a single event or on a sample of event.
+an event study analysis on a single event or on an aggregate of events.
 
 ```eval_rst
 .. contents::
@@ -9,7 +9,7 @@ an event study analysis on a single event or on a sample of event.
     :depth: 1
 
 .. note::
-    You can use the `interactive version <http://127.0.0.1:8888/notebooks/Documents/IESEG/Me%CC%81moire/Class/Documentation-example.ipynb>`_ of this tutorial to play yourself with the functions.
+    You can use the `interactive version <http://127.0.0.1:8888/notebooks/Documents/IESEG/Me%CC%81moire/Class/Documentation-example.ipynb>`_ of this tutorial to play with the functions yourself.
 ```
 
 ## Preliminary work
@@ -22,10 +22,10 @@ an event study analysis on a single event or on a sample of event.
     ```
 
 2. Set the parameters needed for your events: 
-    the returns and Fama-French factors (using `es.EventStudy.import_returns()`and `es.EventStudy.import_FamaFrench()`):
+    the returns and Fama-French factors (using `es.Single.import_returns()`and `es.Single.import_FamaFrench()`):
     ```Python
-    es.EventStudy.import_returns('returns.csv')
-    es.EventStudy.import_FamaFrench('famafrench.csv')
+    es.Single.import_returns('returns.csv')
+    es.Single.import_FamaFrench('famafrench.csv')
     ```
 
 ## Example 1: A single event
@@ -35,7 +35,7 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.
 
 1. Run the event study, here using the Fama-French 3-factor model:
     ```Python
-    event = es.EventStudy.FamaFrench_3factor(
+    event = es.Single.FamaFrench_3factor(
         security_ticker = 'AAPL',
         event_date = np.datetime64('2013-03-04'),
         event_window = (-2,+10), 
@@ -46,11 +46,11 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.
 
 ```eval_rst
 .. note::
-    You can easily play with the parameter and adjust the event study analysis to your need.
+    You can easily play with the parameters and adjust the event study analysis to your needs.
 
-    See the documentation on this `FamaFrench_3factor function <api/EventStudy.html#FamaFrench_3factor>`_ for more details.
+    For more details, see the documentation on `FamaFrench_3factor function <api/eventstudy.Single.FamaFrench_3factor>`_.
 
-    See also `other models function <api/EventStudy.html#Models>`_.
+    See also `other models' function <api/eventstudy.Models>`_.
     You can even `set your own modelisation functions <extend.html>`_
 ```
 
@@ -62,14 +62,17 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.
     ```
 
     ![Single event plot](_static/single_event_plot.png)
+
     *grey area: confidence interval (here at 90%); blue line: CAAR; black bars: AR*
+
     ```eval_rst
     .. note::
         You can remove the confidence interval (set `CI = False`) or
         change its level of confidence (set `confidence = .95` for a confidence interval at 95%).
-        By default AR are note display, but by setting `AR` to `True` you can add them to the plot.
 
-        See the documentation on this `plot function <api/EventStudy.html#plot>`_ for more details.
+        By default AR are note displayed (set `AR = True` to add them to the plot).
+
+        For more details, see the documentation on `plot function <api/eventstudy.Single.plot>`_ .
     ```
     - Or in a table:
     ```Python
@@ -107,14 +110,16 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.
 
 ```eval_rst
 .. note::
-    Stars are added automatically to represent the level of significance
+    Asterisks are added automatically to highlight the level of significance
     (Significance level: \*\*\* at 99%, \*\* at 95%, \* at 90%). 
-    You can remove stars by setting `stars` parameter at `False`.
+    You can remove asterisks by setting `asterisks` parameter at `False`.
 
     `decimals` is a list of integer setting for each column (except index) the rounding decimal. 
     You can also set one integer (e.g. `decimals = 3`) if you want all columns to be rounded the same.
 
-    See the documentation on this `results function <api/EventStudy.html#results>`_ for more details.
+    See the documentation on this `results function <api/eventstudy.Single.results>`_ for more details.
 ```
 
-## Example 2: A sample of events
+## Example 2: An aggregate of events
+
+To be continued...

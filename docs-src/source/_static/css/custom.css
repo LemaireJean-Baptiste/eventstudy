@@ -1,10 +1,28 @@
 .section img{
     max-width: 400px;
+    width: 100%;
     margin: 0 auto;
     display: block;
 }
 
+.footnote-reference.brackets{
+    font-size: .7em;
+    display: inline-block;
+    position: relative;
+    top: -7px;
+    left: -3px;
+}
 
+table.longtable.align-default td{
+    text-align: left;
+}
+
+code.sig-prename{
+    padding-right: 0;
+}
+code.sig-name{
+    padding-left: 0;
+}
 /* 
     Table design by Matt smith
     https://codepen.io/AllThingsSmitty/pen/MyqmdM
@@ -41,51 +59,8 @@ table {
     text-transform: uppercase;
   }
   
-  @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     table {
-      border: 0;
-    }
-  
-    table caption {
-      font-size: 1.3em;
-    }
-    
-    table thead {
-      border: none;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-      width: 1px;
-    }
-    
-    table tr {
-      border-bottom: 3px solid #ddd;
-      display: block;
-      margin-bottom: .625em;
-    }
-    
-    table td {
-      border-bottom: 1px solid #ddd;
-      display: block;
-      font-size: .8em;
-      text-align: right;
-    }
-    
-    table td::before {
-      /*
-      * aria-label has no advantage, it won't be read inside a table
-      content: attr(aria-label);
-      */
-      content: attr(data-label);
-      float: left;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-    
-    table td:last-child {
-      border-bottom: 0;
-    }
+    font-size: .65em;
   }
+}
