@@ -1,0 +1,7 @@
+docs/* linguist-documentation
+docs-stc/* linguist-documentation
+
+example/* linguist-detectable=false
+
+build/* linguist-generated=true
+dist/* linguist-generated=true
