@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>eventstudy.Single.results &#8212; Event Study 0.1a documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multiple Class" href="eventstudy.Multiple.html" />
+    <link rel="prev" title="eventstudy.Single.plot" href="eventstudy.Single.plot.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Multiple.html" title="Multiple Class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Single.plot.html" title="eventstudy.Single.plot"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="eventstudy.Single.html" accesskey="U">Single Class</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../index.html" class="text-logo">Event Study</a>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Table Of Contents</h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Single.html">For a single event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.Multiple.html">For an aggregate of events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://lemairejean-baptiste.github.io/eventstudy/eventstudy.pdf">Download in pdf</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+                <li><a href="index.html">API</a></li>
+              
+                <li><a href="eventstudy.Single.html">Single Class</a></li>
+              
+              <li>eventstudy.Single.results</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="eventstudy-single-results">
+<h1>eventstudy.Single.results<a class="headerlink" href="#eventstudy-single-results" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="eventstudy.Single.results">
+<code class="sig-prename descclassname">Single.</code><code class="sig-name descname">results</code><span class="sig-paren">(</span><em class="sig-param">asterisks: bool = True</em>, <em class="sig-param">decimals=3</em><span class="sig-paren">)</span><a class="headerlink" href="#eventstudy.Single.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return event study’s results in a table format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>asterisks</strong> (<em>bool</em><em>, </em><em>optional</em>) – Add asterisks to CAR value based on significance of p-value, by default True</p></li>
+<li><p><strong>decimals</strong> (<em>int</em><em> or </em><em>list</em><em>, </em><em>optional</em>) – Round the value with the number of decimal specified, by default 3.
+<cite>decimals</cite> can either be an integer, in this case all value will be
+round at the same decimals, or a list of 6 decimals, in this case each
+columns will be round based on its respective number of decimal.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <cite>asterisks</cite> is set as True, CAR’s are converted to string type.
+To make further computation on CARs possible set <cite>asterisks</cite> to False.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>AR and AR’s variance, CAR and CAR’s variance, T-stat and P-value,
+for each T in the event window.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function return a fully working pandas DataFrame.
+All pandas method can be used on it, especially exporting method (to_csv, to_excel,…)</p>
+</div>
+<p class="rubric">Example</p>
+<p>Get results of a market model event study, with specific number of decimal for each column:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">EventStudy</span><span class="o">.</span><span class="n">market_model</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">security_ticker</span> <span class="o">=</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">market_ticker</span> <span class="o">=</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">event_date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2007-01-09&#39;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">event</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 9%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 21%" />
+<col style="width: 12%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>AR</p></th>
+<th class="head"><p>Variance AR</p></th>
+<th class="head"><p>CAR</p></th>
+<th class="head"><p>Variance CAR</p></th>
+<th class="head"><p>T-stat</p></th>
+<th class="head"><p>P-value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-5</p></td>
+<td><p>-0.053</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.053 **</p></td>
+<td><p>0.00048</p></td>
+<td><p>-2.42</p></td>
+<td><p>0.01</p></td>
+</tr>
+<tr class="row-odd"><td><p>-4</p></td>
+<td><p>0.012</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.041 *</p></td>
+<td><p>0.00096</p></td>
+<td><p>-1.33</p></td>
+<td><p>0.09</p></td>
+</tr>
+<tr class="row-even"><td><p>-3</p></td>
+<td><p>-0.013</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.055 *</p></td>
+<td><p>0.00144</p></td>
+<td><p>-1.43</p></td>
+<td><p>0.08</p></td>
+</tr>
+<tr class="row-odd"><td><p>-2</p></td>
+<td><p>0.004</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.051</p></td>
+<td><p>0.00192</p></td>
+<td><p>-1.15</p></td>
+<td><p>0.13</p></td>
+</tr>
+<tr class="row-even"><td><p>-1</p></td>
+<td><p>0</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.051</p></td>
+<td><p>0.00241</p></td>
+<td><p>-1.03</p></td>
+<td><p>0.15</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>-0.077</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.128 **</p></td>
+<td><p>0.00289</p></td>
+<td><p>-2.37</p></td>
+<td><p>0.01</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>-0.039</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.167 ***</p></td>
+<td><p>0.00337</p></td>
+<td><p>-2.88</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0.027</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.14 **</p></td>
+<td><p>0.00385</p></td>
+<td><p>-2.26</p></td>
+<td><p>0.01</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0.024</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.116 **</p></td>
+<td><p>0.00433</p></td>
+<td><p>-1.77</p></td>
+<td><p>0.04</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>-0.024</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.14 **</p></td>
+<td><p>0.00481</p></td>
+<td><p>-2.02</p></td>
+<td><p>0.02</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0.023</p></td>
+<td><p>0.00048</p></td>
+<td><p>-0.117 *</p></td>
+<td><p>0.00529</p></td>
+<td><p>-1.61</p></td>
+<td><p>0.05</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Significance level: *** at 99%, ** at 95%, * at 90%</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="eventstudy.Single.plot.html" title="previous chapter (use the left arrow)">eventstudy.Single.plot</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="eventstudy.Multiple.html" title="next chapter (use the right arrow)">Multiple Class</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Multiple.html" title="Multiple Class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Single.plot.html" title="eventstudy.Single.plot"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="eventstudy.Single.html" >Single Class</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2019, Jean-Baptiste Lemaire, GNU General Public License v3 (GPLv3). Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

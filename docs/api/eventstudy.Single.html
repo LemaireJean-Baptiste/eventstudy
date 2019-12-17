@@ -13,7 +13,7 @@
   <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-    <title>EventStudy Class &#8212; Event Study 0.1a documentation</title>
+    <title>Single Class &#8212; Event Study 0.1a documentation</title>
     <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
@@ -68,11 +68,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">EventStudy: For single event</a></li>
-<li class="toctree-l2"><a class="reference internal" href="EventStudyBatch.html">EventStudyBatch: For a sample of events</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">For a single event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.Multiple.html">For an aggregate of events</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://lemairejean-baptiste.github.io/eventstudy/eventstudy.pdf">Download in pdf</a></li>
 </ul>
 
     
@@ -102,16 +103,16 @@
               
                 <li><a href="index.html">API</a></li>
               
-              <li>EventStudy Class</li>
+              <li>Single Class</li>
             </ol>
           </div>
           
           <div class="document clearer body">
             
   <div class="section" id="module-eventstudy.Single">
-<span id="eventstudy-class"></span><h1>EventStudy Class<a class="headerlink" href="#module-eventstudy.Single" title="Permalink to this headline">¶</a></h1>
-<p>Event Study core object. Implement the classical event study methodology <a class="footnote-reference brackets" href="#id3" id="id1">1</a> for a single event.
-This implementation heavily rely on the work of MacKinlay <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+<span id="single-class"></span><h1>Single Class<a class="headerlink" href="#module-eventstudy.Single" title="Permalink to this headline">¶</a></h1>
+<p>Event Study package’s core object. Implement the classical event study methodology <a class="footnote-reference brackets" href="#id3" id="id1">1</a> for a single event.
+This implementation heavily relies on the work of MacKinlay <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -140,7 +141,7 @@ In: Journal of Economic Literature 35.1, p. 13.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="eventstudy.Single.__init__.html#eventstudy.Single.__init__" title="eventstudy.Single.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.Single.__init__</span></code></a></p></td>
-<td><p>Low-level way of runing an event study.</p></td>
+<td><p>Low-level (complex) way of runing an event study.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="eventstudy.Single.market_model.html#eventstudy.Single.market_model" title="eventstudy.Single.market_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.Single.market_model</span></code></a></p></td>
 <td><p>Modelise returns with the market model.</p></td>
@@ -163,10 +164,10 @@ In: Journal of Economic Literature 35.1, p. 13.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="eventstudy.Single.import_FamaFrench.html#eventstudy.Single.import_FamaFrench" title="eventstudy.Single.import_FamaFrench"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.Single.import_FamaFrench</span></code></a></p></td>
-<td><p>Import returns from csv file to EventStudy Class parameter.</p></td>
+<td><p>Import Fama-French factors from a csv file to the <cite>Single</cite> Class parameters.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="eventstudy.Single.import_returns.html#eventstudy.Single.import_returns" title="eventstudy.Single.import_returns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.Single.import_returns</span></code></a></p></td>
-<td><p>Import returns from csv file to EventStudy Class parameter.</p></td>
+<td><p>Import returns from a csv file to the <cite>Single</cite> Class parameters.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="eventstudy.Single.import_returns_from_API.html#eventstudy.Single.import_returns_from_API" title="eventstudy.Single.import_returns_from_API"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.Single.import_returns_from_API</span></code></a></p></td>
 <td><p></p></td>
@@ -186,7 +187,7 @@ In: Journal of Economic Literature 35.1, p. 13.</p>
 <td><p>Plot the event study result.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="eventstudy.Single.results.html#eventstudy.Single.results" title="eventstudy.Single.results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eventstudy.Single.results</span></code></a></p></td>
-<td><p>Give event study result in a table format.</p></td>
+<td><p>Return event study’s results in a table format.</p></td>
 </tr>
 </tbody>
 </table>

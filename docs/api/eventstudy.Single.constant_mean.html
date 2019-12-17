@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>eventstudy.Single.constant_mean &#8212; Event Study 0.1a documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="eventstudy.Single.FamaFrench_3factor" href="eventstudy.Single.FamaFrench_3factor.html" />
+    <link rel="prev" title="eventstudy.Single.market_model" href="eventstudy.Single.market_model.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Single.FamaFrench_3factor.html" title="eventstudy.Single.FamaFrench_3factor"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Single.market_model.html" title="eventstudy.Single.market_model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="eventstudy.Single.html" accesskey="U">Single Class</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../index.html" class="text-logo">Event Study</a>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Table Of Contents</h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Single.html">For a single event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.Multiple.html">For an aggregate of events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://lemairejean-baptiste.github.io/eventstudy/eventstudy.pdf">Download in pdf</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+                <li><a href="index.html">API</a></li>
+              
+                <li><a href="eventstudy.Single.html">Single Class</a></li>
+              
+              <li>eventstudy.Single.constant_mean</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="eventstudy-single-constant-mean">
+<h1>eventstudy.Single.constant_mean<a class="headerlink" href="#eventstudy-single-constant-mean" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="eventstudy.Single.constant_mean">
+<em class="property">classmethod </em><code class="sig-prename descclassname">Single.</code><code class="sig-name descname">constant_mean</code><span class="sig-paren">(</span><em class="sig-param">security_ticker</em>, <em class="sig-param">event_date: numpy.datetime64</em>, <em class="sig-param">event_window: tuple = (-10</em>, <em class="sig-param">10)</em>, <em class="sig-param">estimation_size: int = 300</em>, <em class="sig-param">buffer_size: int = 30</em>, <em class="sig-param">keep_model: bool = False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#eventstudy.Single.constant_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modelise returns with the constant mean model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>security_ticker</strong> (<em>str</em>) – Ticker of the security (e.g. company stock) as given in the returns imported.</p></li>
+<li><p><strong>event_date</strong> (<em>np.datetime64</em>) – Date of the event in numpy.datetime64 format.</p></li>
+<li><p><strong>event_window</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Event window specification (T2,T3), by default (-10, +10).
+A tuple of two integers, representing the start and the end of the event window.
+Classically, the event-window starts before the event and ends after the event.
+For example, <cite>event_window = (-2,+20)</cite> means that the event-period starts
+2 periods before the event and ends 20 periods after.</p></li>
+<li><p><strong>estimation_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the estimation for the modelisation of returns [T0,T1], by default 300</p></li>
+<li><p><strong>buffer_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the buffer window [T1,T2], by default 30</p></li>
+<li><p><strong>keep_model</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true <cite>model_func</cite> will return the model which will be accessible through
+the class attributes EventStudy.model, by default False</p></li>
+<li><p><strong>**kwargs</strong> – Additional keywords have no effect but might be accepted to avoid freezing
+if there are not needed parameters specified.
+For example, if market_ticker is specified.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">eventStudy.Single.market_model()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">eventStudy.Single.FamaFrench_3factor()</span></code></p>
+</div>
+<p class="rubric">Example</p>
+<p>Run an event study for the Apple company for the announcement of the first iphone,
+based on the constant mean model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">EventStudy</span><span class="o">.</span><span class="n">constant_mean</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">security_ticker</span> <span class="o">=</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">event_date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2007-01-09&#39;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="eventstudy.Single.market_model.html" title="previous chapter (use the left arrow)">eventstudy.Single.market_model</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="eventstudy.Single.FamaFrench_3factor.html" title="next chapter (use the right arrow)">eventstudy.Single.FamaFrench_3factor</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Single.FamaFrench_3factor.html" title="eventstudy.Single.FamaFrench_3factor"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="eventstudy.Single.market_model.html" title="eventstudy.Single.market_model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="eventstudy.Single.html" >Single Class</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2019, Jean-Baptiste Lemaire, GNU General Public License v3 (GPLv3). Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

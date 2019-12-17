@@ -36,6 +36,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="get_started.html" title="Get Started"
              accesskey="N">next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">Event Study 0.1a documentation</a> &#187;</li> 
@@ -61,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://lemairejean-baptiste.github.io/eventstudy/eventstudy.pdf">Download in pdf</a></li>
 </ul>
 
     
@@ -97,7 +101,12 @@
   <div class="section" id="event-study-package">
 <h1>Event Study package<a class="headerlink" href="#event-study-package" title="Permalink to this headline">¶</a></h1>
 <p>Event Study package is an open-source python project created
-to facilitate the computation of financial event study analysis.</p>
+to facilitate the computation of financial event study analyses.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This package is in alpha. The API will certainly be modified frequently before the release candidate. However, the logic and the structure of the package is mature enough to be published here.</p>
+<p>If you have suggestions to improve and extend this package, contact me through <a class="reference external" href="https://github.com/LemaireJean-Baptiste/">GitHub</a>.</p>
+</div>
 <div class="section" id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install eventstudy
@@ -107,7 +116,7 @@ to facilitate the computation of financial event study analysis.</p>
 <div class="section" id="learn-how-to-use">
 <h2>Learn how to use<a class="headerlink" href="#learn-how-to-use" title="Permalink to this headline">¶</a></h2>
 <p>Go through the <a class="reference internal" href="get_started.html"><span class="doc">Get started section</span></a> to discover through simple
-examples how to use the <code class="docutils literal notranslate"><span class="pre">eventstudy</span></code> package to run your event study for a single event or a sample of events.</p>
+examples how to use the <code class="docutils literal notranslate"><span class="pre">eventstudy</span></code> package to run your event study for a single event or an aggregate of events.</p>
 <p>Read the <a class="reference internal" href="api/index.html"><span class="doc">API</span></a> for more details on functions and their parameters.</p>
 </div>
 <div class="section" id="play-with-the-interactive-interface">
@@ -122,21 +131,26 @@ examples how to use the <code class="docutils literal notranslate"><span class="
 <li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="get_started.html#preliminary-work">Preliminary work</a></li>
 <li class="toctree-l2"><a class="reference internal" href="get_started.html#example-1-a-single-event">Example 1: A single event</a></li>
-<li class="toctree-l2"><a class="reference internal" href="get_started.html#example-2-a-sample-of-events">Example 2: A sample of events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_started.html#example-2-an-aggregate-of-events">Example 2: An aggregate of events</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/EventStudy.html">EventStudy: For single event</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/EventStudy.html#run-the-event-study">Run the event study</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/EventStudy.html#import-data">Import data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/EventStudy.html#retrieve-results">Retrieve results</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/EventStudy.html#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/eventstudy.Single.html">For a single event</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/eventstudy.Single.html#run-the-event-study">Run the event study</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/eventstudy.Single.html#import-data">Import data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/eventstudy.Single.html#retrieve-results">Retrieve results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/EventStudyBatch.html">EventStudyBatch: For a sample of events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/eventstudy.Multiple.html">For an aggregate of events</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/eventstudy.Multiple.html#run-the-event-study">Run the event study</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/eventstudy.Multiple.html#import-data">Import data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/eventstudy.Multiple.html#retrieve-results">Retrieve results</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://lemairejean-baptiste.github.io/eventstudy/eventstudy.pdf">Download in pdf</a></li>
 </ul>
 </div>
 </div>
@@ -162,6 +176,9 @@ examples how to use the <code class="docutils literal notranslate"><span class="
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="get_started.html" title="Get Started"
              >next</a> |</li>

@@ -24,8 +24,6 @@
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="eventstudy.EventStudy.import_FamaFrench" href="eventstudy.EventStudy.import_FamaFrench.html" />
-    <link rel="prev" title="eventstudy.EventStudy.constant_mean" href="eventstudy.EventStudy.constant_mean.html" />
   
    
 
@@ -37,14 +35,9 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="eventstudy.EventStudy.import_FamaFrench.html" title="eventstudy.EventStudy.import_FamaFrench"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="eventstudy.EventStudy.constant_mean.html" title="eventstudy.EventStudy.constant_mean"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="EventStudy.html" accesskey="U">EventStudy Class</a> &#187;</li> 
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="container-wrapper">
@@ -62,14 +55,10 @@
   <div class="sidebar-toc">
     
     
-      <ul class="current">
+      <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="EventStudy.html">EventStudy: For single event</a></li>
-<li class="toctree-l2"><a class="reference internal" href="EventStudyBatch.html">EventStudyBatch: For a sample of events</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
 </ul>
 
@@ -98,10 +87,6 @@
             <ol class="breadcrumb">
               <li><a href="../index.html">Docs</a></li>
               
-                <li><a href="index.html">API</a></li>
-              
-                <li><a href="EventStudy.html">EventStudy Class</a></li>
-              
               <li>eventstudy.EventStudy.FamaFrench_3factor</li>
             </ol>
           </div>
@@ -110,74 +95,11 @@
             
   <div class="section" id="eventstudy-eventstudy-famafrench-3factor">
 <h1>eventstudy.EventStudy.FamaFrench_3factor<a class="headerlink" href="#eventstudy-eventstudy-famafrench-3factor" title="Permalink to this headline">¶</a></h1>
-<dl class="method">
-<dt id="eventstudy.EventStudy.FamaFrench_3factor">
-<em class="property">classmethod </em><code class="sig-prename descclassname">EventStudy.</code><code class="sig-name descname">FamaFrench_3factor</code><span class="sig-paren">(</span><em class="sig-param">security_ticker</em>, <em class="sig-param">event_date: numpy.datetime64</em>, <em class="sig-param">event_window: tuple = (-10</em>, <em class="sig-param">10)</em>, <em class="sig-param">estimation_size: int = 300</em>, <em class="sig-param">buffer_size: int = 30</em>, <em class="sig-param">keep_model: bool = False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#eventstudy.EventStudy.FamaFrench_3factor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Modelise returns with the Fama-French 3-factor model.
-The model used is the one developped in Fama and French (1992) <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>security_ticker</strong> (<em>str</em>) – Ticker of the security (e.g. company stock) as given in the returns imported.</p></li>
-<li><p><strong>event_date</strong> (<em>np.datetime64</em>) – Date of the event in numpy.datetime64 format.</p></li>
-<li><p><strong>event_window</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Event window pre (<cite>T2</cite>) and post-event (<cite>T3</cite>) lags around the event date (<cite>0</cite>), by default (-10, +10)</p></li>
-<li><p><strong>estimation_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the estimation for the modelisation of returns [T0,T1], by default 300</p></li>
-<li><p><strong>buffer_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the buffer window [T1,T2], by default 30</p></li>
-<li><p><strong>keep_model</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true <cite>model_func</cite> will return the model which will be accessible through
-the class attributes EventStudy.model, by default False</p></li>
-<li><p><strong>**kwargs</strong> – Additional keywords have no effect but might be accepted to avoid freezing
-if there are not needed parameters specified.
-For example, if market_ticker is specified.</p></li>
-</ul>
-</dd>
-</dl>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">To()</span></code></p>
-<dl class="simple">
-<dt><a class="reference internal" href="functions/eventstudy.EventStudy.market_model.html#eventstudy.EventStudy.market_model" title="eventstudy.EventStudy.market_model"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EventStudy.market_model()</span></code></a></dt><dd><p>the market model.</p>
-</dd>
-<dt><a class="reference internal" href="functions/eventstudy.EventStudy.constant_mean.html#eventstudy.EventStudy.constant_mean" title="eventstudy.EventStudy.constant_mean"><code class="xref py py-meth docutils literal notranslate"><span class="pre">EventStudy.constant_mean()</span></code></a></dt><dd><p>the constant mean model.</p>
-</dd>
-</dl>
-</div>
-<p class="rubric">Example</p>
-<p>Run an event study for the Apple company for the announcement of the first iphone,
-based on the Fama-French 3-factor model.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">EventStudy</span><span class="o">.</span><span class="n">FamaFrench_3factor</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">security_ticker</span> <span class="o">=</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">event_date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2007-01-09&#39;</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">20</span><span class="p">)</span>
-<span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-<p class="rubric">References</p>
-<dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Fama, E. F. and K. R. French (1992).
-“The Cross-Section of Expected Stock Returns”.
-In: The Journal of Finance 47.2, pp. 427–465.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 
 
           </div>
             
-  <div class="footer-relations">
-    
-      <div class="pull-left">
-        <a class="btn btn-default" href="eventstudy.EventStudy.constant_mean.html" title="previous chapter (use the left arrow)">eventstudy.EventStudy.constant_mean</a>
-      </div>
-    
-      <div class="pull-right">
-        <a class="btn btn-default" href="eventstudy.EventStudy.import_FamaFrench.html" title="next chapter (use the right arrow)">eventstudy.EventStudy.import_FamaFrench</a>
-      </div>
-    </div>
-    <div class="clearer"></div>
-  
         </div>
         <div class="clearfix"></div>
     </div>
@@ -188,14 +110,9 @@ In: The Journal of Finance 47.2, pp. 427–465.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="eventstudy.EventStudy.import_FamaFrench.html" title="eventstudy.EventStudy.import_FamaFrench"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="eventstudy.EventStudy.constant_mean.html" title="eventstudy.EventStudy.constant_mean"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >API</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="EventStudy.html" >EventStudy Class</a> &#187;</li> 
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Event Study 0.1a documentation</a> &#187;</li> 
       </ul>
     </div>
 <script type="text/javascript">
