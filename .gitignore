@@ -1,6 +1,7 @@
 # Perso
 update_process.md
 doc-src/build
+OLD-dist/
 
 # Gitignore template from: https://github.com/github/gitignore/blob/master/Python.gitignore
 # Byte-compiled / optimized / DLL files
