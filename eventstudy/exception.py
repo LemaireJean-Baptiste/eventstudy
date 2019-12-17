@@ -9,13 +9,13 @@ class ParameterMissingError(CustomException):
             self.helper = "Returns are missing."
             self.msg = (
                 self.helper + "\nTips: Import returns first using: "
-                "EventStudy.import_returns() or EventStudy.import_returns_from_API()"
+                "EventStudy.Single.import_returns() or EventStudy.Single.import_returns_from_API()"
             )
         elif param_name == "FamaFrench":
             self.helper = "Fama-French factors are missing."
             self.msg = (
                 self.helper + "\nTips: Import Fama-French factors first using: "
-                "EventStudy.import_FamaFrench() or EventStudy.import_FamaFrench_from_API()"
+                "EventStudy.Single.import_FamaFrench() or EventStudy.Single.import_FamaFrench_from_API()"
             )
         else:
             if param_name:
@@ -35,7 +35,7 @@ class ColumnMissingError(CustomException):
             self.helper = f"{column} ticker is not available in returns parameter."
             self.msg = (
                 self.helper + "\nTips: Re-import returns with this ticker using: "
-                "EventStudy.import_returns() or EventStudy.import_returns_from_API()"
+                "EventStudy.Single.import_returns() or EventStudy.Single.import_returns_from_API()"
             )
         elif param_name == "FamaFrench":
             self.helper = (
@@ -43,7 +43,7 @@ class ColumnMissingError(CustomException):
             )
             self.msg = (
                 self.helper + "\nTips: Re-import Fama-French factors using: "
-                "EventStudy.import_FamaFrench() or EventStudy.import_FamaFrench_from_API()"
+                "EventStudy.Single.import_FamaFrench() or EventStudy.Single.import_FamaFrench_from_API()"
             )
         else:
             if param_name:
