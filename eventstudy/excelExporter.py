@@ -1,6 +1,6 @@
 # Excel export
 import xlsxwriter as xl
-from .eventStudy import EventStudy
+from .single import Single
 
 import tempfile
 
@@ -99,4 +99,4 @@ def print_table(wb, ws, row: int, col: int, data: dict, title: str = None):
     return last_row, last_col
 
 
-EventStudy.to_excel = write_file
+Single.to_excel = write_file

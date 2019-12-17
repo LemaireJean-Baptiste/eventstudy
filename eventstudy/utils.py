@@ -12,7 +12,7 @@ from csv import DictReader
 
 # TODO: sortir la computation des résiduals des fonctions de modélisation. Juste leur faire calculer les prédictions. Sortir aussi windowsize estimation size et tout le reste, et aussi le secReturns qui doit être rataché à l'event study pas la fonction de modélisation.
 
-def to_table(columns, star=None, decimals=None, index_start=0):
+def to_table(columns, asterisks_dict=None, decimals=None, index_start=0):
 
     if decimals:
         if type(decimals) is int:
@@ -22,9 +22,9 @@ def to_table(columns, star=None, decimals=None, index_start=0):
             if decimal:
                 columns[key] = np.round(columns[key], decimal)
 
-    if star:
-        columns[pv_star["where"]] = map(
-            add_star, columns[pv_star["pvalue"]], columns[pv_star["where"]]
+    if asterisks_dict:
+        columns[asterisks_dict["where"]] = map(
+            add_asterisks, columns[asterisks_dict["pvalue"]], columns[asterisks_dict["where"]]
         )
 
     df = pd.DataFrame.from_dict(columns)
@@ -32,19 +32,19 @@ def to_table(columns, star=None, decimals=None, index_start=0):
     return df
 
 
-def add_star(pvalue, value=None):
+def add_asterisks(pvalue, value=None):
     if value == None:
         value = pvalue
 
     if pvalue < 0.01:
-        star = f"{str(value)} ***"
+        asterisks = f"{str(value)} ***"
     elif pvalue < 0.05:
-        star = f"{str(value)} **"
+        asterisks = f"{str(value)} **"
     elif pvalue < 0.1:
-        star = f"{str(value)} *"
+        asterisks = f"{str(value)} *"
     else:
-        star = f"{str(value)}"
-    return star
+        asterisks = f"{str(value)}"
+    return asterisks
 
 
 def plot(time, CAR, *, AR=None, CI=False, var=None, df=None, confidence=0.90):

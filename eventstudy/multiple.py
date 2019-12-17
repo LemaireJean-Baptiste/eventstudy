@@ -13,7 +13,7 @@ from scipy.stats import t, kurtosis
 import datetime
 
 
-class EventStudyBatch:
+class Multiple:
     def __init__(self, sample, errors=None):
         self.errors = errors
         self.__warn_errors()
@@ -69,7 +69,74 @@ class EventStudyBatch:
     def rank_test(self, confidence):
         pass
 
-    def results(self, stars: bool = True, decimals=3):
+    def results(self, asterisks: bool = True, decimals=3):
+        """
+        Give event study result in a table format.
+        
+        Parameters
+        ----------
+        asterisks : bool, optional
+            Add asterisks to CAR value based on significance of p-value, by default True
+        decimals : int or list, optional
+            Round the value with the number of decimal specified, by default 3.
+            `decimals` can either be an integer, in this case all value will be 
+            round at the same decimals, or a list of 6 decimals, in this case each 
+            columns will be round based on its respective number of decimal.
+        
+        Note
+        ----
+
+        When `asterisks` is set as True, CAR's are converted to string type.
+        To make further computation on CARs possible set `asterisks` to False.
+
+        Returns
+        -------
+        pandas.DataFrame
+            AAR and AAR's variance, CAAR and CAAR's variance, T-stat and P-value, 
+            for each T in the event window.
+
+        Note
+        ----
+        
+        The function return a fully working pandas DataFrame.
+        All pandas method can be used on it, especially exporting method (to_csv, to_excel,...)
+
+        Example
+        -------
+
+        Get results of a market model event study on a 
+        sample of events (Apple Inc. 10-K release) imported 
+        from a csv, with specific number of decimal for each column:
+
+        >>> events = es.Sample.from_csv(
+        ...     'AAPL_10K.csv',
+        ...     es.Single.FamaFrench_3factor,
+        ...     event_window = (-5,+5),
+        ...     date_format = '%d/%m/%Y'
+        ... )
+        >>> events.results(decimals = [3,5,3,5,2,2])
+
+        ====  ======  ==============  =======  ===============  ========  =========
+          ..     AAR    Variance AAR  CAAR       Variance CAAR    T-stat    P-value
+        ====  ======  ==============  =======  ===============  ========  =========
+          -5  -0               3e-05  -0.0             3e-05       -0.09       0.47
+          -4  -0.002           3e-05  -0.003           5e-05       -0.35       0.36
+          -3   0.009           3e-05  0.007            8e-05        0.79       0.22
+          -2   0.003           3e-05  0.01             0.0001       1.03       0.15
+          -1   0.008           3e-05  0.018 *          0.00013      1.61       0.05
+           0  -0               3e-05  0.018 *          0.00015      1.46       0.07
+           1  -0.006           3e-05  0.012            0.00018      0.88       0.19
+           2   0.006           3e-05  0.017            0.0002       1.22       0.11
+           3   0               3e-05  0.018            0.00023      1.17       0.12
+           4  -0.007           3e-05  0.011            0.00025      0.69       0.24
+           5   0.001           3e-05  0.012            0.00028      0.72       0.24
+        ====  ======  ==============  =======  ===============  ========  =========
+
+        Note
+        ----
+        
+        Significance level: \*\*\* at 99%, \*\* at 95%, \* at 90%
+        """
         columns = {
             "AAR": self.AAR,
             "Variance AAR": self.var_AAR,
@@ -79,20 +146,57 @@ class EventStudyBatch:
             "P-value": self.pvalue,
         }
 
-        star_dict = {"pvalue": "P-value", "where": "CAR"} if stars else None
+        asterisks_dict = {"pvalue": "P-value", "where": "CAAR"} if asterisks else None
 
         return to_table(
             columns,
-            star=star_dict,
+            asterisks_dict=asterisks_dict,
             decimals=decimals,
             index_start=self.event_window[0],
         )
 
-    def plot(self, *, AR=False, CI=True, confidence=0.90):
+    def plot(self, *, AAR=False, CI=True, confidence=0.90):
+        """
+        Plot the event study result.
+        
+        Parameters
+        ----------
+        AAR : bool, optional
+            Add to the figure a bar plot of AAR, by default False
+        CI : bool, optional
+            Display the confidence interval, by default True
+        confidence : float, optional
+            Set the confidence level, by default 0.90
+        
+        Returns
+        -------
+        matplotlib.figure
+            Plot of CAAR and AAR (if specified).
+
+        Note
+        ----
+        The function return a fully working matplotlib function.
+        You can extend the figure and apply new set-up with matplolib's method (e.g. savefig).
+        
+        Example
+        -------
+
+        Plot CAR (in blue) and AR (in black), with a confidence interval of 95% (in grey).
+
+        >>> events = es.Sample.from_csv(
+        ...     'AAPL_10K.csv',
+        ...     es.Single.FamaFrench_3factor,
+        ...     event_window = (-5,+5),
+        ...     date_format = '%d/%m/%Y'
+        ... )
+        >>> events.plot(AR = True, confidence = .95)
+
+        .. image:: /_static/single_event_plot.png
+        """
         return plot(
             time=range(self.event_window[0], self.event_window[1] + 1),
             CAR=self.CAAR,
-            AR=self.AAR if AR else None,
+            AR=self.AAR if AAR else None,
             CI=CI,
             var=self.var_CAAR,
             df=self.df,
@@ -100,6 +204,64 @@ class EventStudyBatch:
         )
 
     def get_CAR_dist(self, decimals=3):
+        """
+        Give CARs' distribution descriptive statistics in a table format.
+        
+        Parameters
+        ----------
+        decimals : int or list, optional
+            Round the value with the number of decimal specified, by default 3.
+            `decimals` can either be an integer, in this case all value will be 
+            round at the same decimals, or a list of 6 decimals, in this case each 
+            columns will be round based on its respective number of decimal.
+
+        Returns
+        -------
+        pandas.DataFrame
+            CARs' descriptive statistics 
+
+        Note
+        ----
+        
+        The function return a fully working pandas DataFrame.
+        All pandas method can be used on it, especially exporting method (to_csv, to_excel,...)
+
+        Example
+        -------
+
+        Get CARs' descriptive statistics  of a market model event study on a 
+        sample of events (Apple Inc. 10-K release) imported 
+        from a csv, with specific number of decimal for each column:
+
+        >>> events = es.Sample.from_csv(
+        ...     'AAPL_10K.csv',
+        ...     es.Single.FamaFrench_3factor,
+        ...     event_window = (-5,+5),
+        ...     date_format = '%d/%m/%Y'
+        ... )
+        >>> events.get_CAR_dist(decimals = 4)
+
+        ====  ======  ==========  ==========  ======  ==============  ==============  ==============  =====
+          ..    Mean    Variance    Kurtosis     Min    Quantile 25%    Quantile 50%    Quantile 75%    Max
+        ====  ======  ==========  ==========  ======  ==============  ==============  ==============  =====
+          -5  -0           0.001       0.061  -0.052          -0.014           0.001           0.015  0.047
+          -4  -0.003       0.001       0.247  -0.091          -0.022           0.003           0.015  0.081
+          -3   0.007       0.002       0.532  -0.082          -0.026           0.006           0.027  0.139
+          -2   0.01        0.002      -0.025  -0.088          -0.021           0.002           0.033  0.115
+          -1   0.018       0.003      -0.065  -0.091          -0.012           0.02            0.041  0.138
+           0   0.018       0.003      -0.724  -0.084          -0.012           0.012           0.057  0.128
+           1   0.012       0.004      -0.613  -0.076          -0.024           0.003           0.059  0.143
+           2   0.017       0.005      -0.55   -0.117          -0.026           0.024           0.057  0.156
+           3   0.018       0.005       0.289  -0.162          -0.032           0.027           0.057  0.17
+           4   0.011       0.007       2.996  -0.282          -0.039           0.035           0.052  0.178
+           5   0.012       0.008       1.629  -0.266          -0.05            0.035           0.064  0.174
+        ====  ======  ==========  ==========  ======  ==============  ==============  ==============  =====
+
+        Note
+        ----
+        
+        Significance level: \*\*\* at 99%, \*\* at 95%, \* at 90%
+        """
         return to_table(
             self.CAR_dist, decimals=decimals, index_start=self.event_window[0]
         )

@@ -13,50 +13,11 @@ from scipy.stats import t
 from .models import market_model, FamaFrench_3factor, constant_mean
 
 
-class EventStudy:
+class Single:
     """
-    Low-level way of runing an event study. Prefer the simpler use of model methods.
-    Implement the classical event study methodology [1]_ for a single event.
-    This implementation heavily rely on the work of MacKinlay [2]_.
-    
+    Event Study package's core object. Implement the classical event study methodology [1]_ for a single event.
+    This implementation heavily relies on the work of MacKinlay [2]_.
 
-    Parameters
-    ----------
-    model_func
-        Function computing the modelisation of returns.
-    model_data : dict
-        Dictionary containing all parameters needed by `model_func`.
-    event_window : tuple, optional
-        Event window pre (`T2`) and post-event (`T3`) lags around the event date (`0`), by default (-10, +10)
-    estimation_size : int, optional
-        Size of the estimation for the modelisation of returns [T0,T1], by default 300
-    buffer_size : int, optional
-        Size of the buffer window [T1,T2], by default 30
-    keep_model : bool, optional
-        If true `model_func` will return the model which will be accessible through 
-        the class attributes EventStudy.model, by default False
-
-    See also
-    -------
-    To run directly event study using :
-    EventStudy.market_model : the market model.
-    EventStudy.FamaFrench_3factor : the Fama-French 3-factor model.
-    EventStudy.constant_mean : the constant mean model.
-
-    Example
-    -------
-
-    Run an event study based on :
-    .. the `market_model` function,
-    .. given values for security and market returns,
-    .. and default parameters
-
-    >>> from ev.models import market_model
-    >>> event = EventStudy(
-    ...     market_model, 
-    ...     {'security_returns':[0.032,-0.043,...], 'market_returns':[0.012,-0.04,...]}
-    ... )
-    
     References
     ----------
 
@@ -66,9 +27,8 @@ class EventStudy:
     .. [2] Mackinlay, A. (1997). “Event Studies in Economics and Finance”.
         In: Journal of Economic Literature 35.1, p. 13.
     """
-    
 
-    parameters = {
+    _parameters = {
         "max_iteration": 4,
     }
 
@@ -81,6 +41,47 @@ class EventStudy:
         buffer_size: int = 30,
         keep_model: bool = False,
     ):
+        """
+        Low-level (complex) way of runing an event study. Prefer the simpler use of model methods.
+
+        Parameters
+        ----------
+        model_func
+            Function computing the modelisation of returns.
+        model_data : dict
+            Dictionary containing all parameters needed by `model_func`.
+        event_window : tuple, optional
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
+        estimation_size : int, optional
+            Size of the estimation for the modelisation of returns [T0,T1], by default 300
+        buffer_size : int, optional
+            Size of the buffer window [T1,T2], by default 30
+        keep_model : bool, optional
+            If true `model_func` will return the model which will be accessible through 
+            the class attributes EventStudy.model, by default False
+
+        See also
+        -------
+
+        eventStudy.Single.market_model, eventStudy.Single.FamaFrench_3factor, eventStudy.Single.constant_mean
+
+        Example
+        -------
+
+        Run an event study based on :
+        .. the `market_model` function defined in the `models` submodule,
+        .. given values for security and market returns,
+        .. and default parameters
+
+        >>> event = EventStudy(
+        ...     eventstudy.models.market_model, 
+        ...     {'security_returns':[0.032,-0.043,...], 'market_returns':[0.012,-0.04,...]}
+        ... )
+        """
         self.event_window = event_window
         self.event_window_size = -event_window[0] + event_window[1] + 1
         self.estimation_size = estimation_size
@@ -106,14 +107,14 @@ class EventStudy:
         self.tstat = self.CAR / np.sqrt(self.var_CAR)
         self.pvalue = 1.0 - t.cdf(abs(self.tstat), self.df)
 
-    def results(self, stars: bool = True, decimals=3):
+    def results(self, asterisks: bool = True, decimals=3):
         """
-        Give event study result in a table format.
+        Return event study's results in a table format.
         
         Parameters
         ----------
-        stars : bool, optional
-            Add stars to CAR value based on significance of p-value, by default True
+        asterisks : bool, optional
+            Add asterisks to CAR value based on significance of p-value, by default True
         decimals : int or list, optional
             Round the value with the number of decimal specified, by default 3.
             `decimals` can either be an integer, in this case all value will be 
@@ -123,8 +124,8 @@ class EventStudy:
         Note
         ----
 
-        When `stars` is set as True, CAR's are converted to string type.
-        To make further computation on CARs possible set `stars` to False.
+        When `asterisks` is set as True, CAR's are converted to string type.
+        To make further computation on CARs possible set `asterisks` to False.
 
         Returns
         -------
@@ -171,7 +172,6 @@ class EventStudy:
         ----
         
         Significance level: \*\*\* at 99%, \*\* at 95%, \* at 90%
-
         """
 
         columns = {
@@ -183,11 +183,11 @@ class EventStudy:
             "P-value": self.pvalue,
         }
 
-        star_dict = {"pvalue": "P-value", "where": "CAR"} if stars else None
+        asterisks_dict = {"pvalue": "P-value", "where": "CAR"} if asterisks else None
 
         return to_table(
             columns,
-            star=star_dict,
+            asterisks_dict=asterisks_dict,
             decimals=decimals,
             index_start=self.event_window[0],
         )
@@ -243,7 +243,7 @@ class EventStudy:
 
     @classmethod
     def _save_parameter(cls, param_name: str, data):
-        cls.parameters[param_name] = data
+        cls._parameters[param_name] = data
 
     @classmethod
     def _get_parameters(
@@ -259,9 +259,9 @@ class EventStudy:
         # Find index of returns
         try:
             event_i = get_index_of_date(
-                cls.parameters[param_name]["date"],
+                cls._parameters[param_name]["date"],
                 event_date,
-                cls.parameters["max_iteration"],
+                cls._parameters["max_iteration"],
             )
         except KeyError:
             raise ParameterMissingError(param_name)
@@ -276,7 +276,7 @@ class EventStudy:
         results = list()
         for column in columns:
             try:
-                result = cls.parameters[param_name][column][start:end]
+                result = cls._parameters[param_name][column][start:end]
             except KeyError:
                 raise ColumnMissingError(param_name, column)
 
@@ -298,8 +298,8 @@ class EventStudy:
         date_format: str = "%Y-%m-%d"
     ):
         """
-        Import returns from csv file to EventStudy Class parameter.
-        Once imported, the returns are shared among all EventStudy instance.
+        Import returns from a csv file to the `Single` Class parameters.
+        Once imported, the returns are shared among all `Single` instances.
         
         Parameters
         ----------
@@ -337,13 +337,14 @@ class EventStudy:
     def import_FamaFrench(
         cls, path: str, *, rescale_factor: bool = True, date_format: str = "%Y%m%d"
     ):
-        """Import returns from csv file to EventStudy Class parameter.
-        Once imported, the returns are shared among all EventStudy instance.
+        """
+        Import Fama-French factors from a csv file to the `Single` Class parameters.
+        Once imported, the factors are shared among all `Single` instances.
         
         Parameters
         ----------
         path : str
-            Path to the returns' csv file
+            Path to the factors' csv file
         rescale_factor : bool, optional
             Divide by 100 the factor provided, by default True,
             Fama-French factors are given in percent on Kenneth R. French website.
@@ -386,7 +387,11 @@ class EventStudy:
         event_date : np.datetime64
             Date of the event in numpy.datetime64 format.
         event_window : tuple, optional
-            Event window pre (`T2`) and post-event (`T3`) lags around the event date (`0`), by default (-10, +10)
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
         estimation_size : int, optional
             Size of the estimation for the modelisation of returns [T0,T1], by default 300
         buffer_size : int, optional
@@ -401,9 +406,7 @@ class EventStudy:
         See also
         -------
         
-        To run directly event study using :
-        EventStudy.FamaFrench_3factor : the Fama-French 3-factor model.
-        EventStudy.constant_mean : the constant mean model.
+        eventStudy.Single.FamaFrench_3factor, eventStudy.Single.constant_mean
 
         Example
         -------
@@ -457,7 +460,11 @@ class EventStudy:
         event_date : np.datetime64
             Date of the event in numpy.datetime64 format.
         event_window : tuple, optional
-            Event window pre (`T2`) and post-event (`T3`) lags around the event date (`0`), by default (-10, +10)
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
         estimation_size : int, optional
             Size of the estimation for the modelisation of returns [T0,T1], by default 300
         buffer_size : int, optional
@@ -472,9 +479,7 @@ class EventStudy:
         
         See also
         -------
-        To run directly event study using :
-        EventStudy.market_model : the market model.
-        EventStudy.FamaFrench_3factor : the Fama-French 3-factor model.
+        eventStudy.Single.market_model, eventStudy.Single.FamaFrench_3factor
 
         Example
         -------
@@ -529,7 +534,11 @@ class EventStudy:
         event_date : np.datetime64
             Date of the event in numpy.datetime64 format.
         event_window : tuple, optional
-            Event window pre (`T2`) and post-event (`T3`) lags around the event date (`0`), by default (-10, +10)
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
         estimation_size : int, optional
             Size of the estimation for the modelisation of returns [T0,T1], by default 300
         buffer_size : int, optional
@@ -544,9 +553,7 @@ class EventStudy:
         
         See also
         -------
-        To run directly event study using :
-        EventStudy.market_model : the market model.
-        EventStudy.constant_mean : the constant mean model.
+        eventStudy.Single.market_model, eventStudy.Single.constant_mean
 
         Example
         -------

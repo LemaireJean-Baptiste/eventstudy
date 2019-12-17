@@ -31,7 +31,7 @@ class Model:
 
         X = sm.add_constant(X)  # add an intercept
         reg = sm.OLS(Y[: self.estimation_size], X[: self.estimation_size]).fit()
-        residuals = reg.predict(X) - np.array(Y)
+        residuals = np.array(Y) - reg.predict(X)
         df = self.estimation_size - 1
         var = np.var(residuals[: self.estimation_size])
         if self.keep_model:
