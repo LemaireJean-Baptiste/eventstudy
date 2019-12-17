@@ -9,7 +9,7 @@ an event study analysis on a single event or on an aggregate of events.
     :depth: 1
 
 .. note::
-    You can use the `interactive version <http://127.0.0.1:8888/notebooks/Documents/IESEG/Me%CC%81moire/Class/Documentation-example.ipynb>`_ of this tutorial to play with the functions yourself.
+    You can use the `interactive version <https://mybinder.org/v2/gh/LemaireJean-Baptiste/eventstudy/master?filepath=example%2FEventstudy%20Example.ipynb>`_ of this tutorial to play with the functions yourself.
 ```
 
 ## Preliminary work

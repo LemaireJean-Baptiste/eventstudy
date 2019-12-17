@@ -20,6 +20,8 @@ Read the [API guide](https://lemairejean-baptiste.github.io/eventstudy/api/index
 
 ## Example
 
+**[Launch the interactive notebook](https://mybinder.org/v2/gh/LemaireJean-Baptiste/eventstudy/master?filepath=example%2FEventstudy%20Example.ipynb) to play with the package yourself**
+
 As an introductory example, we will compute the event study 
 analysis of the announcement of the first iphone,
 made by Steve Jobs during MacWorld exhibition, on January 7, 2007.
