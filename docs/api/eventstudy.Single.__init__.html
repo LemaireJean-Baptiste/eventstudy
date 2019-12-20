@@ -69,8 +69,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Single.html">For a single event</a></li>
-<li class="toctree-l2"><a class="reference internal" href="eventstudy.Multiple.html">For an aggregate of events</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Single.html">Single Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.Multiple.html">Multiple Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.excelExporter.html">Excel export</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
@@ -130,22 +131,23 @@ For example, <cite>event_window = (-2,+20)</cite> means that the event-period st
 2 periods before the event and ends 20 periods after.</p></li>
 <li><p><strong>estimation_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the estimation for the modelisation of returns [T0,T1], by default 300</p></li>
 <li><p><strong>buffer_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the buffer window [T1,T2], by default 30</p></li>
-<li><p><strong>keep_model</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true <cite>model_func</cite> will return the model which will be accessible through
-the class attributes EventStudy.model, by default False</p></li>
+<li><p><strong>keep_model</strong> (<em>bool</em><em>, </em><em>optional</em>) – If true the model used to compute the event study will be stored in memory.
+It will be accessible through the class attributes eventstudy.Single.model, by default False</p></li>
 </ul>
 </dd>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">eventStudy.Single.market_model()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">eventStudy.Single.FamaFrench_3factor()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">eventStudy.Single.constant_mean()</span></code></p>
+<p><a class="reference internal" href="eventstudy.Single.market_model.html#eventstudy.Single.market_model" title="eventstudy.Single.market_model"><code class="xref py py-meth docutils literal notranslate"><span class="pre">market_model()</span></code></a>, <a class="reference internal" href="eventstudy.Single.FamaFrench_3factor.html#eventstudy.Single.FamaFrench_3factor" title="eventstudy.Single.FamaFrench_3factor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">FamaFrench_3factor()</span></code></a>, <a class="reference internal" href="eventstudy.Single.constant_mean.html#eventstudy.Single.constant_mean" title="eventstudy.Single.constant_mean"><code class="xref py py-meth docutils literal notranslate"><span class="pre">constant_mean()</span></code></a></p>
 </div>
 <p class="rubric">Example</p>
 <p>Run an event study based on :
 .. the <cite>market_model</cite> function defined in the <cite>models</cite> submodule,
 .. given values for security and market returns,
 .. and default parameters</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">EventStudy</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">eventstudy</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">market_model</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">eventstudy</span> <span class="kn">import</span> <span class="n">Single</span><span class="p">,</span> <span class="n">models</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">event</span> <span class="o">=</span> <span class="n">Single</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">models</span><span class="o">.</span><span class="n">market_model</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;security_returns&#39;</span><span class="p">:[</span><span class="mf">0.032</span><span class="p">,</span><span class="o">-</span><span class="mf">0.043</span><span class="p">,</span><span class="o">...</span><span class="p">],</span> <span class="s1">&#39;market_returns&#39;</span><span class="p">:[</span><span class="mf">0.012</span><span class="p">,</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span><span class="o">...</span><span class="p">]}</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>

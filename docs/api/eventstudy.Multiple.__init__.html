@@ -69,8 +69,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="eventstudy.Single.html">For a single event</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Multiple.html">For an aggregate of events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.Single.html">Single Class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Multiple.html">Multiple Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.excelExporter.html">Excel export</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
@@ -116,8 +117,51 @@
 <h1>eventstudy.Multiple.__init__<a class="headerlink" href="#eventstudy-multiple-init" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="eventstudy.Multiple.__init__">
-<code class="sig-prename descclassname">Multiple.</code><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">sample</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eventstudy.Multiple.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<code class="sig-prename descclassname">Multiple.</code><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">sample: list</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eventstudy.Multiple.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Low-level (complex) way of runing an aggregate of event studies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>list</em>) – List containing <cite>eventstudy.Single</cite> objects.
+You can run independently each eventstudy, aggregate
+them in a dictionary and compute their aggregate statistics.</p></li>
+<li><p><strong>errors</strong> (<em>list</em><em>, </em><em>optional</em>) – A list containing errors encountered during the computation of single event studies, by default None.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="eventstudy.Multiple.from_csv.html#eventstudy.Multiple.from_csv" title="eventstudy.Multiple.from_csv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_csv()</span></code></a>, <a class="reference internal" href="eventstudy.Multiple.from_list.html#eventstudy.Multiple.from_list" title="eventstudy.Multiple.from_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_list()</span></code></a>, <a class="reference internal" href="eventstudy.Multiple.from_text.html#eventstudy.Multiple.from_text" title="eventstudy.Multiple.from_text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_text()</span></code></a></p>
+</div>
+<p class="rubric">Example</p>
+<p>Run an aggregate of event studies for Apple Inc. 10-K form releases.
+We loop into a list of dates (in string format).
+We first convert dates to a numpy.datetie64 format,
+then run each event study, store them in an <cite>events</cite> list.
+Finally, we run the aggregate event study.</p>
+<p>1. Import packages:
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; import datetime
+&gt;&gt;&gt; import eventstudy as es</p>
+<p>2. import datas and initialize an empty list to store events:
+&gt;&gt;&gt; es.Single.import_returns(‘returns.csv’)
+&gt;&gt;&gt; dates = [‘05/11/2018’, ‘03/11/2017’, ‘26/10/2016’,
+…     ‘28/10/2015’, ‘27/10/2014’, ‘30/10/2013’,
+…     ‘31/10/2012’, ‘26/10/2011’, ‘27/10/2010’]
+&gt;&gt;&gt; events = list()</p>
+<p>3. Run each single event:
+&gt;&gt;&gt; for date in dates:
+…     formated_date = np.datetime64(
+…         datetime.datetime.strptime(date, ‘%d/%m/%Y’)
+…     )
+…     event = es.Single.market_model(
+…         security_ticker = ‘AAPL’,
+…         market_ticker = ‘SPY’,
+…         event_date = formated_date
+…     )
+…     events.append(event)</p>
+<p>4. Run the aggregate event study
+&gt;&gt;&gt; agg = es.Multiple(events)</p>
 </dd></dl>
 
 </div>

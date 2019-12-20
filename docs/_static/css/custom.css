@@ -12,6 +12,71 @@
     top: -7px;
     left: -3px;
 }
+#main-search form .input-group input{
+  box-shadow: none;
+  padding: 0 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+.btn-default{
+  background: transparent;
+  box-shadow: none;
+  border: 2px solid #1EA0FF;
+  text-shadow: none;
+}
+.btn-default:hover{
+  background: #f7f6f6;
+  border: 2px solid #4CB4FF;
+  text-decoration: underline;
+}
+
+.text-logo{
+  background: url(../logo.svg) #1EA0FF;
+  background-size: contain;
+  height: 80px;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+.text-logo:hover{
+  color: transparent;
+}
+
+h1{
+  background-color: transparent;
+}
+
+
+.toctree-wrapper.compound ul{list-style: none; padding:0}
+
+.toctree-wrapper.compound li{
+  display:block;
+  padding-left: 50px;
+}
+.toctree-wrapper.compound li a{
+  display: inline-block;
+  padding: 10px 30px 10px 0;
+}
+
+.toctree-wrapper.compound li.toctree-l1{
+  padding:0;
+}
+.toctree-wrapper.compound li.toctree-l1>a{
+  display:block;
+  padding: 10px 30px;
+  border-left: 4px solid #1EA0FF;
+  background: #f8f8f8;
+}
+.toctree-wrapper.compound li.toctree-l1>a:hover{
+  border-left: 4px solid #4CB4FF;
+}
+
+.sidebar-toc ul li a:hover {
+  background-color: #4CB4FF;
+}
 
 table.longtable.align-default td{
     text-align: left;

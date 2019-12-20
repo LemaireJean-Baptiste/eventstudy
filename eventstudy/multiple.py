@@ -14,7 +14,80 @@ import datetime
 
 
 class Multiple:
-    def __init__(self, sample, errors=None):
+    """
+    Implement computations on an aggregate of event studies.
+    Among which cumulative average abnormal returns (CAAR) and its significance tests.
+    This implementation heavily relies on the work of MacKinlay [1]_.
+
+    Basically, this class takes in input a list of single event studies (`eventstudy.Single`),
+    aggregate them and gives access to aggregate statistics and tests.
+
+    Note
+    ----
+
+    All single event studies must have the same specifications (event, estimation and buffer windows).
+    However, the model used for each event study can be different (if needed).
+
+    References
+    ----------
+
+    .. [1] Mackinlay, A. (1997). “Event Studies in Economics and Finance”.
+        In: Journal of Economic Literature 35.1, p. 13.
+    """
+    def __init__(self, sample: list, errors=None):
+        """
+        Low-level (complex) way of runing an aggregate of event studies.
+
+        Parameters
+        ----------
+        sample : list
+            List containing `eventstudy.Single` objects. 
+            You can run independently each eventstudy, aggregate 
+            them in a dictionary and compute their aggregate statistics.
+        errors : list, optional
+            A list containing errors encountered during the computation of single event studies, by default None.
+
+        See also
+        -------
+
+        from_csv, from_list, from_text
+
+        Example
+        -------
+
+        Run an aggregate of event studies for Apple Inc. 10-K form releases. 
+        We loop into a list of dates (in string format). 
+        We first convert dates to a numpy.datetie64 format, 
+        then run each event study, store them in an `events` list.
+        Finally, we run the aggregate event study.
+        
+        1. Import packages:
+        >>> import numpy as np
+        >>> import datetime
+        >>> import eventstudy as es
+
+        2. import datas and initialize an empty list to store events:
+        >>> es.Single.import_returns('returns.csv')
+        >>> dates = ['05/11/2018', '03/11/2017', '26/10/2016', 
+        ...     '28/10/2015', '27/10/2014', '30/10/2013',
+        ...     '31/10/2012', '26/10/2011', '27/10/2010']
+        >>> events = list()
+
+        3. Run each single event:
+        >>> for date in dates:
+        ...     formated_date = np.datetime64(
+        ...         datetime.datetime.strptime(date, '%d/%m/%Y')   
+        ...     )
+        ...     event = es.Single.market_model(
+        ...         security_ticker = 'AAPL',
+        ...         market_ticker = 'SPY',
+        ...         event_date = formated_date
+        ...     )
+        ...     events.append(event)
+
+        4. Run the aggregate event study
+        >>> agg = es.Multiple(events)
+        """
         self.errors = errors
         self.__warn_errors()
 
@@ -62,11 +135,13 @@ class Multiple:
         return CAR_dist
 
     def sign_test(self, sign="positive", confidence=0.9):
+        """ Not implemented yet """
         # signtest
         # return nonParametricTest(self.CAR).signTest(sign, confidence)
         pass
 
     def rank_test(self, confidence):
+        """ Not implemented yet """
         pass
 
     def results(self, asterisks: bool = True, decimals=3):
@@ -104,11 +179,11 @@ class Multiple:
         Example
         -------
 
-        Get results of a market model event study on a 
-        sample of events (Apple Inc. 10-K release) imported 
+        Get results of a market model event study on an 
+        aggregate of events (Apple Inc. 10-K form releases) imported 
         from a csv, with specific number of decimal for each column:
 
-        >>> events = es.Sample.from_csv(
+        >>> events = es.Multiple.from_csv(
         ...     'AAPL_10K.csv',
         ...     es.Single.FamaFrench_3factor,
         ...     event_window = (-5,+5),
@@ -183,7 +258,7 @@ class Multiple:
 
         Plot CAR (in blue) and AR (in black), with a confidence interval of 95% (in grey).
 
-        >>> events = es.Sample.from_csv(
+        >>> events = es.Multiple.from_csv(
         ...     'AAPL_10K.csv',
         ...     es.Single.FamaFrench_3factor,
         ...     event_window = (-5,+5),
@@ -229,11 +304,11 @@ class Multiple:
         Example
         -------
 
-        Get CARs' descriptive statistics  of a market model event study on a 
-        sample of events (Apple Inc. 10-K release) imported 
+        Get CARs' descriptive statistics  of a market model event study on an
+        aggregate of events (Apple Inc. 10-K release) imported 
         from a csv, with specific number of decimal for each column:
 
-        >>> events = es.Sample.from_csv(
+        >>> events = es.Multiple.from_csv(
         ...     'AAPL_10K.csv',
         ...     es.Single.FamaFrench_3factor,
         ...     event_window = (-5,+5),
@@ -269,21 +344,78 @@ class Multiple:
     @classmethod
     def from_text(
         cls,
-        text,
+        text: str,
         event_study_model,
         event_window: tuple = (-10, +10),
         estimation_size: int = 300,
         buffer_size: int = 30,
         *,
         date_format: str = "%Y-%m-%d",
+        keep_single: bool = False,
         keep_model: bool = False,
         ignore_errors: bool = True,
     ):
+        """
+        Compute an aggregate of event studies from a multi-line string containing each event's parameters.
+        
+        Parameters
+        ----------
+        text : str
+            List of events in a multi-line string format. The first line must contains 
+            the name of each parameter needed to compute the event_study_model.
+            All value must be separated by a comma (see example for more details).
+        event_study_model
+            Function returning an eventstudy.Single class instance.
+            For example, eventstudy.Single.market_model() (a custom functions can be created).
+        event_window : tuple, optional
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
+        estimation_size : int, optional
+            Size of the estimation for the modelisation of returns [T0,T1], by default 300
+        buffer_size : int, optional
+            Size of the buffer window [T1,T2], by default 30
+        date_format : str, optional
+            Format of the date provided in the event_date column, by default "%Y-%m-%d".
+            Refer to datetime standard library for more details date_format: 
+            https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+        keep_single : bool, optional
+            If true each single event study will be stored in memory in a list. 
+            They will be accessible through the class attributes eventStudy.Multiple.singles, by default False
+        keep_model : bool, optional
+            If true the model used to compute each single event study will be stored in memory.
+            They will be accessible through the class attributes eventStudy.Multiple.singles[n].model, by default False
+        ignore_errors : bool, optional
+            If true, errors during the computation of single event studies will be ignored. 
+            In this case, these events will be removed from the computation.
+            However, a warning message will be displayed after the computation to warn for errors. 
+            Errors can also be accessed using `print(eventstudy.Multiple.error_report())`.
+            If false, the computation will be stopped by any error encounter 
+            during the computation of single event studies, by default True
+            
+        See also
+        --------
+        
+        from_list, from_csv
 
-        # security_ticker, market_ticker, event_date
-        # AAPL, SPY, 05/10/2019
-        # MSFT, SPY, 05/10/2019
-        # GOOG, SPY, 05/10/2019
+        Example
+        -------
+
+        >>> text = \"\"\"security_ticker, market_ticker, event_date
+        ...     AAPL, SPY, 05/11/2018
+        ...     AAPL, SPY, 03/11/2017
+        ...     AAPL, SPY, 26/10/2016
+        ...     AAPL, SPY, 28/10/2015
+        ... \"\"\"
+        >>> agg = eventstudy.Multiple.from_text(
+        ...     text = text,
+        ...     event_study_model = eventstudy.Single.market_model,
+        ...     event_window = (-5+10),
+        ...     date_format = "%d/%m/%Y"
+        ... ) 
+        """
 
         rows = list(map(lambda x: list(map(str.strip, x.split(","))), text.split("\n")))
         headers = rows.pop(0)
@@ -307,15 +439,70 @@ class Multiple:
     @classmethod
     def from_list(
         cls,
-        event_list,
+        event_list: list,
         event_study_model,
         event_window: tuple = (-10, +10),
         estimation_size: int = 300,
         buffer_size: int = 30,
         *,
+        keep_single: bool = False,
         keep_model: bool = False,
         ignore_errors: bool = True,
     ):
+        """
+        Compute an aggregate of event studies from a list containing each event's parameters.
+        
+        Parameters
+        ----------
+        event_list : list
+            List containing dictionaries specifing each event's parameters (see example for more details).
+        event_study_model
+            Function returning an eventstudy.Single class instance.
+            For example, eventstudy.Single.market_model() (a custom functions can be created).
+        event_window : tuple, optional
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
+        estimation_size : int, optional
+            Size of the estimation for the modelisation of returns [T0,T1], by default 300
+        buffer_size : int, optional
+            Size of the buffer window [T1,T2], by default 30
+        keep_single : bool, optional
+            If true each single event study will be stored in memory in a list. 
+            They will be accessible through the class attributes eventStudy.Multiple.singles, by default False
+        keep_model : bool, optional
+            If true the model used to compute each single event study will be stored in memory.
+            They will be accessible through the class attributes eventStudy.Multiple.singles[n].model, by default False
+        ignore_errors : bool, optional
+            If true, errors during the computation of single event studies will be ignored. 
+            In this case, these events will be removed from the computation.
+            However, a warning message will be displayed after the computation to warn for errors. 
+            Errors can also be accessed using `print(eventstudy.Multiple.error_report())`.
+            If false, the computation will be stopped by any error encounter 
+            during the computation of single event studies, by default True
+            
+        See also
+        --------
+        
+        from_text, from_csv
+
+        Example
+        -------
+
+        >>> list = [
+        ...     {'event_date': np.datetime64("2018-11-05"), 'security_ticker': 'AAPL'},
+        ...     {'event_date': np.datetime64("2017-11-03"), 'security_ticker': 'AAPL'},
+        ...     {'event_date': np.datetime64("2016-10-26"), 'security_ticker': 'AAPL'},
+        ...     {'event_date': np.datetime64("2015-10-28"), 'security_ticker': 'AAPL'},
+        ... ]
+        >>> agg = eventstudy.Multiple.from_list(
+        ...     text = list,
+        ...     event_study_model = eventstudy.Single.FamaFrench_3factor,
+        ...     event_window = (-5+10),
+        ... ) 
+        """
 
         # event_list = [
         #   {'event_date': np.datetime64, models_data},
@@ -352,11 +539,67 @@ class Multiple:
         event_window: tuple = (-10, +10),
         estimation_size: int = 300,
         buffer_size: int = 30,
-        keep_model: bool = False,
         *,
         date_format: str = "%Y%m%d",
+        keep_single: bool = False,
+        keep_model: bool = False,
         ignore_errors: bool = True,
     ):
+        """
+        Compute an aggregate of event studies from a csv file containing each event's parameters.
+        
+        Parameters
+        ----------
+        path : str
+            Path to the csv file containing events' parameters.
+            The first line must contains the name of each parameter needed to compute the event_study_model.
+            All value must be separated by a comma.
+        event_study_model
+            Function returning an eventstudy.Single class instance.
+            For example, eventstudy.Single.market_model() (a custom functions can be created).
+        event_window : tuple, optional
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
+        estimation_size : int, optional
+            Size of the estimation for the modelisation of returns [T0,T1], by default 300
+        buffer_size : int, optional
+            Size of the buffer window [T1,T2], by default 30
+        date_format : str, optional
+            Format of the date provided in the event_date column, by default "%Y-%m-%d".
+            Refer to datetime standard library for more details date_format: 
+            https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+        keep_single : bool, optional
+            If true each single event study will be stored in memory in a list. 
+            They will be accessible through the class attributes eventStudy.Multiple.singles, by default False
+        keep_model : bool, optional
+            If true the model used to compute each single event study will be stored in memory.
+            They will be accessible through the class attributes eventStudy.Multiple.singles[n].model, by default False
+        ignore_errors : bool, optional
+            If true, errors during the computation of single event studies will be ignored. 
+            In this case, these events will be removed from the computation.
+            However, a warning message will be displayed after the computation to warn for errors. 
+            Errors can also be accessed using `print(eventstudy.Multiple.error_report())`.
+            If false, the computation will be stopped by any error encounter 
+            during the computation of single event studies, by default True
+            
+        See also
+        --------
+        
+        from_text, from_list
+
+        Example
+        -------
+
+        >>> agg = eventstudy.Multiple.from_csv(
+        ...     path = 'events.csv',
+        ...     event_study_model = eventstudy.Single.market_model,
+        ...     event_window = (-5+10),
+        ...     date_format = "%d/%m/%Y"
+        ... ) 
+        """
 
         event_list = read_csv(
             path,
@@ -394,6 +637,19 @@ class Multiple:
                 logging.warning(msg)
 
     def error_report(self):
+        """
+        Return a report of errors faced during the computation of event studies.
+
+        Example
+        -------
+        
+        >>> agg = eventstudy.Multiple.from_csv(
+        ...     path = 'events.csv',
+        ...     event_study_model = eventstudy.Single.market_model
+        ... )
+        >>> print(agg.error_report())
+        """
+
         if self.errors is not None and len(self.errors) > 0:
             nb = (
                 f"One error"

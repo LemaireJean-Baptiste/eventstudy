@@ -61,13 +61,13 @@ class Single:
         buffer_size : int, optional
             Size of the buffer window [T1,T2], by default 30
         keep_model : bool, optional
-            If true `model_func` will return the model which will be accessible through 
-            the class attributes EventStudy.model, by default False
+            If true the model used to compute the event study will be stored in memory.
+            It will be accessible through the class attributes eventstudy.Single.model, by default False
 
         See also
         -------
 
-        eventStudy.Single.market_model, eventStudy.Single.FamaFrench_3factor, eventStudy.Single.constant_mean
+        market_model, FamaFrench_3factor, constant_mean
 
         Example
         -------
@@ -77,8 +77,9 @@ class Single:
         .. given values for security and market returns,
         .. and default parameters
 
-        >>> event = EventStudy(
-        ...     eventstudy.models.market_model, 
+        >>> from eventstudy import Single, models
+        >>> event = Single(
+        ...     models.market_model, 
         ...     {'security_returns':[0.032,-0.043,...], 'market_returns':[0.012,-0.04,...]}
         ... )
         """
@@ -397,8 +398,8 @@ class Single:
         buffer_size : int, optional
             Size of the buffer window [T1,T2], by default 30
         keep_model : bool, optional
-            If true `model_func` will return the model which will be accessible through 
-            the class attributes EventStudy.model, by default False
+            If true the model used to compute the event study will be stored in memory.
+            It will be accessible through the class attributes eventstudy.Single.model, by default False
         **kwargs
             Additional keywords have no effect but might be accepted to avoid freezing 
             if there are not needed parameters specified.
@@ -406,7 +407,7 @@ class Single:
         See also
         -------
         
-        eventStudy.Single.FamaFrench_3factor, eventStudy.Single.constant_mean
+        FamaFrench_3factor, constant_mean
 
         Example
         -------
@@ -470,8 +471,8 @@ class Single:
         buffer_size : int, optional
             Size of the buffer window [T1,T2], by default 30
         keep_model : bool, optional
-            If true `model_func` will return the model which will be accessible through 
-            the class attributes EventStudy.model, by default False
+            If true the model used to compute the event study will be stored in memory.
+            It will be accessible through the class attributes eventstudy.Single.model, by default False
         **kwargs
             Additional keywords have no effect but might be accepted to avoid freezing 
             if there are not needed parameters specified.
@@ -479,7 +480,7 @@ class Single:
         
         See also
         -------
-        eventStudy.Single.market_model, eventStudy.Single.FamaFrench_3factor
+        market_model, Single.FamaFrench_3factor
 
         Example
         -------
@@ -544,8 +545,8 @@ class Single:
         buffer_size : int, optional
             Size of the buffer window [T1,T2], by default 30
         keep_model : bool, optional
-            If true `model_func` will return the model which will be accessible through 
-            the class attributes EventStudy.model, by default False
+            If true the model used to compute the event study will be stored in memory.
+            It will be accessible through the class attributes eventstudy.Single.model, by default False
         **kwargs
             Additional keywords have no effect but might be accepted to avoid freezing 
             if there are not needed parameters specified.
@@ -553,7 +554,7 @@ class Single:
         
         See also
         -------
-        eventStudy.Single.market_model, eventStudy.Single.constant_mean
+        market_model, constant_mean
 
         Example
         -------

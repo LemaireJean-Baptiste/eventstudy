@@ -69,8 +69,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get Started</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="eventstudy.Single.html">For a single event</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Multiple.html">For an aggregate of events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.Single.html">Single Class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="eventstudy.Multiple.html">Multiple Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="eventstudy.excelExporter.html">Excel export</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/LemaireJean-Baptiste/eventstudy">GitHub</a></li>
@@ -138,10 +139,10 @@ columns will be round based on its respective number of decimal.</p>
 All pandas method can be used on it, especially exporting method (to_csv, to_excel,…)</p>
 </div>
 <p class="rubric">Example</p>
-<p>Get CARs’ descriptive statistics  of a market model event study on a
-sample of events (Apple Inc. 10-K release) imported
+<p>Get CARs’ descriptive statistics  of a market model event study on an
+aggregate of events (Apple Inc. 10-K release) imported
 from a csv, with specific number of decimal for each column:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Sample</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Multiple</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="s1">&#39;AAPL_10K.csv&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">es</span><span class="o">.</span><span class="n">Single</span><span class="o">.</span><span class="n">FamaFrench_3factor</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">5</span><span class="p">),</span>

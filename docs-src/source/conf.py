@@ -101,6 +101,75 @@ html_css_files = [
     'css/custom.css',
 ]
 
+# -- Options for LaTeX output ------------------------------------------------
+
+latex_elements = {
+    'fncychap': '',
+    'fontpkg': r'''
+    \usepackage{FiraSans}
+    \setmainfont[ItalicFont={Fira Sans Light Italic},%
+                 BoldFont={Fira Sans},%
+                 BoldItalicFont={Fira Sans Italic}]%
+                {Fira Sans Light}
+    \setsansfont[ItalicFont={Fira Sans Light Italic},%
+                 BoldFont={Fira Sans},%
+                 BoldItalicFont={Fira Sans Italic}]%
+                {Fira Sans Light}
+    \setmonofont{Fira Mono}
+
+
+    % Remove `chapter` from chapter's heading
+    \makeatletter
+    \def\@makechapterhead#1{%
+    \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+        \ifnum \c@secnumdepth >\m@ne
+        \if@mainmatter
+            %\huge\bfseries \@chapapp\space \thechapter
+            \Huge\bfseries \thechapter.\space%
+            %\par\nobreak
+            %\vskip 20\p@
+        \fi
+        \fi
+        \interlinepenalty\@M
+        \Huge \bfseries #1\par\nobreak
+        \vskip 40\p@
+    }}
+    \makeatother
+    ''',
+    'sphinxsetup': 'shadowsize=0pt, shadowrule=1pt',
+    'maketitle': r'''
+    \begin{{titlepage}}
+    \flushright
+    \includegraphics[width=10cm]{{../../source/_static/logo.pdf}}
+    
+    \vspace{{10em}}
+    
+    \Huge \textbf{{Documentation}}
+
+    \Large version {}
+
+    {}
+    
+    \today
+    \end{{titlepage}}
+    '''.format(es.__version__, es.__author__)
+}
+
+# Grouping the document tree into LaTeX files. List of tuples
+# (source start file, target name, title,
+#  author, documentclass [howto, manual, or own class]).
+latex_documents = [
+    (
+        "latex",
+        "eventstudy.tex",
+        u"Event Study Package Documentation",
+        es.__author__,
+        "manual",
+        False
+    )
+]
+
 # -- Extension configuration -------------------------------------------------
 
 autodoc_default_flags = ["members"]

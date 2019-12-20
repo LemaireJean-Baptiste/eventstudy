@@ -1,5 +1,4 @@
 ```eval_rst
-.. currentmodule:: eventstudy.Single
 
 Multiple Class
 ================

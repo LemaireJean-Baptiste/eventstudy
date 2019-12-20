@@ -10,13 +10,17 @@ BUILDDIR      = build
 
 
 pdf:
-	@make latexpdf
+	@make latex
+	cd build/latex; lualatex eventstudy.tex
 	@cp -a build/latex/eventstudy.pdf ../docs
 
-github:
+web:
 	@make html
 	@cp -a build/html/. ../docs
-	@make latexpdf
+	
+github:
+	@make web
+	@make pdf
 
 # Put it first so that "make" without argument is like "make help".
 help:

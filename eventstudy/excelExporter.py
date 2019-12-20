@@ -1,5 +1,13 @@
 # Excel export
-import xlsxwriter as xl
+try:
+    import xlsxwriter as xl
+except ImportError:
+    import logging
+    msg = """\
+Package Missing: Please install the `xlsxwriter` package, using `pip install XlsxWriter`.
+See xlsxwriter's documentation: https://xlsxwriter.readthedocs.io/
+"""
+    logging.warning(msg)
 from .single import Single
 
 import tempfile
