@@ -101,6 +101,7 @@ html_css_files = [
     'css/custom.css',
 ]
 
+html_favicon = '_static/favicon.ico'
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
@@ -150,7 +151,7 @@ latex_elements = {
     \Large version {}
 
     {}
-    
+
     \today
     \end{{titlepage}}
     '''.format(es.__version__, es.__author__)

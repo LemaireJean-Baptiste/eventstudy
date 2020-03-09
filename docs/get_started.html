@@ -22,6 +22,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API" href="api/index.html" />
@@ -69,6 +70,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#preliminary-work">Preliminary work</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-1-a-single-event">Example 1: A single event</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-2-an-aggregate-of-events">Example 2: An aggregate of events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bonus-loop-in-event">Bonus: Loop in event</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
@@ -113,9 +115,10 @@
 an event study analysis on a single event or on an aggregate of events.</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#preliminary-work" id="id1">Preliminary work</a></p></li>
-<li><p><a class="reference internal" href="#example-1-a-single-event" id="id2">Example 1: A single event</a></p></li>
-<li><p><a class="reference internal" href="#example-2-an-aggregate-of-events" id="id3">Example 2: An aggregate of events</a></p></li>
+<li><p><a class="reference internal" href="#preliminary-work" id="id4">Preliminary work</a></p></li>
+<li><p><a class="reference internal" href="#example-1-a-single-event" id="id5">Example 1: A single event</a></p></li>
+<li><p><a class="reference internal" href="#example-2-an-aggregate-of-events" id="id6">Example 2: An aggregate of events</a></p></li>
+<li><p><a class="reference internal" href="#bonus-loop-in-event" id="id7">Bonus: Loop in event</a></p></li>
 </ul>
 </div>
 <div class="admonition note">
@@ -123,7 +126,7 @@ an event study analysis on a single event or on an aggregate of events.</p>
 <p>You can use the <a class="reference external" href="https://mybinder.org/v2/gh/LemaireJean-Baptiste/eventstudy/master?filepath=example%2FEventstudy%20Example.ipynb">interactive version</a> of this tutorial to play with the functions yourself.</p>
 </div>
 <div class="section" id="preliminary-work">
-<h2><a class="toc-backref" href="#id1">Preliminary work</a><a class="headerlink" href="#preliminary-work" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Preliminary work</a><a class="headerlink" href="#preliminary-work" title="Permalink to this headline">¶</a></h2>
 <ol>
 <li><p>Load the <code class="docutils literal notranslate"><span class="pre">eventstudy</span></code> module and its dependencies: <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eventstudy</span> <span class="k">as</span> <span class="nn">es</span>
@@ -142,7 +145,7 @@ the returns and Fama-French factors (using <code class="docutils literal notrans
 </ol>
 </div>
 <div class="section" id="example-1-a-single-event">
-<h2><a class="toc-backref" href="#id2">Example 1: A single event</a><a class="headerlink" href="#example-1-a-single-event" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Example 1: A single event</a><a class="headerlink" href="#example-1-a-single-event" title="Permalink to this headline">¶</a></h2>
 <p>As an introductory example, we will compute the event study
 analysis of the announcement of the first iphone,
 made by Steve Jobs during MacWorld exhibition, on January 7, 2007.</p>
@@ -157,8 +160,6 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-</li>
-</ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can easily play with the parameters and adjust the event study analysis to your needs.</p>
@@ -166,7 +167,7 @@ made by Steve Jobs during MacWorld exhibition, on January 7, 2007.</p>
 <p>See also <a class="reference external" href="api/eventstudy.Models">other models’ function</a>.
 You can even <a class="reference external" href="extend.html">set your own modelisation functions</a></p>
 </div>
-<ol>
+</li>
 <li><p>Display results:</p>
 <ul class="simple">
 <li><p>In a plot:</p></li>
@@ -451,8 +452,734 @@ You can also set one integer (e.g. <cite>decimals = 3</cite>) if you want all co
 </div>
 </div>
 <div class="section" id="example-2-an-aggregate-of-events">
-<h2><a class="toc-backref" href="#id3">Example 2: An aggregate of events</a><a class="headerlink" href="#example-2-an-aggregate-of-events" title="Permalink to this headline">¶</a></h2>
-<p>To be continued…</p>
+<h2><a class="toc-backref" href="#id6">Example 2: An aggregate of events</a><a class="headerlink" href="#example-2-an-aggregate-of-events" title="Permalink to this headline">¶</a></h2>
+<p>The eventstudy package offer three different entry points.
+The list of events can be provided using a csv file, a plain python text or a python list.</p>
+<p>In this second example, based on the same data and preliminary work, we will
+compute an event study on GAFA annual report (10-K form) releases.</p>
+<div class="section" id="data-preparation">
+<h3>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this headline">¶</a></h3>
+<p>The first step is to gather the data about the events and to format it.
+For the purpose of this example we will use the csv file methods.
+The csv file must contains all information needed to compute the model.</p>
+<p>The event study will be computed using the market model. According to the (/api/eventstudy.Single.market_model.html#eventstudy.Single.market_model)[API documentation] aside from event study parameters which will be set globally for all events (event_window, estimation_size and buffer_size), the market model needs the security_ticker, the market_ticker and the event_date parameters.</p>
+<p>Thus, the csv file should contain three columns with the exact same names as the parameter names.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The csv file must use comma (‘,’) as separator.</p>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>security_ticker</th>
+<th>market_ticker</th>
+<th>event_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>31/10/2019</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>05/11/2018</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>03/11/2017</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>26/10/2016</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>28/10/2015</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>27/10/2014</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>30/10/2013</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>31/10/2012</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>26/10/2011</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>SPY</td>
+<td>27/10/2010</td>
+</tr>
+<tr>
+<td>GOOG</td>
+<td>SPY</td>
+<td>04/02/2020</td>
+</tr>
+<tr>
+<td>GOOG</td>
+<td>SPY</td>
+<td>05/02/2019</td>
+</tr>
+<tr>
+<td>GOOG</td>
+<td>SPY</td>
+<td>06/02/2018</td>
+</tr>
+<tr>
+<td>GOOG</td>
+<td>SPY</td>
+<td>03/02/2017</td>
+</tr>
+<tr>
+<td>GOOG</td>
+<td>SPY</td>
+<td>11/02/2016</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>31/01/2020</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>01/02/2019</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>02/02/2018</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>10/02/2017</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>29/01/2016</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>30/01/2015</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>30/01/2013</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>01/02/2012</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>28/01/2011</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>SPY</td>
+<td>29/01/2010</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>01/08/2019</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>03/08/2018</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>02/08/2017</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>28/07/2016</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>31/07/2015</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>31/07/2014</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>30/07/2013</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>26/07/2012</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>28/07/2011</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>SPY</td>
+<td>30/07/2010</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>SPY</td>
+<td>30/01/2020</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>SPY</td>
+<td>31/01/2019</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>SPY</td>
+<td>01/02/2018</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>SPY</td>
+<td>28/01/2016</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>SPY</td>
+<td>29/01/2015</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>SPY</td>
+<td>31/01/2014</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="event-study-computation">
+<h3>Event study computation<a class="headerlink" href="#event-study-computation" title="Permalink to this headline">¶</a></h3>
+<p>To create an event study analysis of an aggregate of events, we will use the <code class="docutils literal notranslate"><span class="pre">Multiple</span></code> class.
+This class is designed following the same spirit and structure of the <code class="docutils literal notranslate"><span class="pre">Single</span></code> class.</p>
+<p>Run the event study using the csv importer method:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">release_10K</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Multiple</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;10K.csv&#39;</span><span class="p">,</span> <span class="c1"># the path to the csv file created</span>
+    <span class="n">event_study_model</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Single</span><span class="o">.</span><span class="n">market_model</span><span class="p">,</span>
+    <span class="n">event_window</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">estimation_size</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">buffer_size</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">date_format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y&#39;</span><span class="p">,</span>
+    <span class="n">ignore_errors</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The event_study_model parameter must point to a function. This function can either be a model function provided by the <cite>Single</cite> class or a user-defined function.</p>
+<p>When the ignore_errors parameter is set to <cite>True</cite> (which is its default value), the event study analysis will be computed regardless of any error encounter. Event triggering an error will be remove of the sample. Use <a class="reference external" href="api/eventstudy.Multiple.error_report">error_report method</a> to get the full list of error and their explanation. Errors are often coming from data unavailability.</p>
+<p>Set the ignore_errors to False if you prefer the analysis to stop at the first error.</p>
+</div>
+</div>
+<div class="section" id="display-results">
+<h3>Display results:<a class="headerlink" href="#display-results" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>In a plot:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">release_10K</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">confidence</span><span class="o">=.</span><span class="mi">95</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> <span class="c1"># use standard matplotlib function to display the plot</span>
+</pre></div>
+</div>
+<p><img alt="Mutliple events plot" src="_images/multiple_event_plot.png" /></p>
+<p><em>grey area: confidence interval (here defined by the user at 95%); blue line: CAAR</em></p>
+<ul class="simple">
+<li><p>Or in a table:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">release_10K</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="right"></th>
+<th align="right">AAR</th>
+<th align="right">Variance AAR</th>
+<th align="left">CAAR</th>
+<th align="right">Variance CAAR</th>
+<th align="right">T-stat</th>
+<th align="right">P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">-5</td>
+<td align="right">-0.004</td>
+<td align="right">1e-05</td>
+<td align="left">-0.004 **</td>
+<td align="right">1e-05</td>
+<td align="right">-1.7</td>
+<td align="right">0.04</td>
+</tr>
+<tr>
+<td align="right">-4</td>
+<td align="right">0.001</td>
+<td align="right">1e-05</td>
+<td align="left">-0.004</td>
+<td align="right">1e-05</td>
+<td align="right">-1</td>
+<td align="right">0.16</td>
+</tr>
+<tr>
+<td align="right">-3</td>
+<td align="right">0.001</td>
+<td align="right">1e-05</td>
+<td align="left">-0.003</td>
+<td align="right">2e-05</td>
+<td align="right">-0.64</td>
+<td align="right">0.26</td>
+</tr>
+<tr>
+<td align="right">-2</td>
+<td align="right">-0.002</td>
+<td align="right">1e-05</td>
+<td align="left">-0.005</td>
+<td align="right">2e-05</td>
+<td align="right">-1.04</td>
+<td align="right">0.15</td>
+</tr>
+<tr>
+<td align="right">-1</td>
+<td align="right">0.004</td>
+<td align="right">1e-05</td>
+<td align="left">-0.001</td>
+<td align="right">3e-05</td>
+<td align="right">-0.26</td>
+<td align="right">0.4</td>
+</tr>
+<tr>
+<td align="right">0</td>
+<td align="right">0.009</td>
+<td align="right">1e-05</td>
+<td align="left">0.008</td>
+<td align="right">4e-05</td>
+<td align="right">1.29</td>
+<td align="right">0.1</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">-0.004</td>
+<td align="right">1e-05</td>
+<td align="left">0.004</td>
+<td align="right">4e-05</td>
+<td align="right">0.54</td>
+<td align="right">0.29</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">-0.002</td>
+<td align="right">1e-05</td>
+<td align="left">0.002</td>
+<td align="right">5e-05</td>
+<td align="right">0.27</td>
+<td align="right">0.39</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">-0.001</td>
+<td align="right">1e-05</td>
+<td align="left">0.001</td>
+<td align="right">6e-05</td>
+<td align="right">0.14</td>
+<td align="right">0.45</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">-0.002</td>
+<td align="right">1e-05</td>
+<td align="left">-0.001</td>
+<td align="right">6e-05</td>
+<td align="right">-0.1</td>
+<td align="right">0.46</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td align="right">-0.004</td>
+<td align="right">1e-05</td>
+<td align="left">-0.004</td>
+<td align="right">7e-05</td>
+<td align="right">-0.53</td>
+<td align="right">0.3</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td align="right">-0.004</td>
+<td align="right">1e-05</td>
+<td align="left">-0.009</td>
+<td align="right">7e-05</td>
+<td align="right">-1.01</td>
+<td align="right">0.16</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">1e-05</td>
+<td align="left">-0.009</td>
+<td align="right">8e-05</td>
+<td align="right">-0.97</td>
+<td align="right">0.17</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td align="right">-0.001</td>
+<td align="right">1e-05</td>
+<td align="left">-0.01</td>
+<td align="right">9e-05</td>
+<td align="right">-1.09</td>
+<td align="right">0.14</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td align="right">0.002</td>
+<td align="right">1e-05</td>
+<td align="left">-0.008</td>
+<td align="right">9e-05</td>
+<td align="right">-0.81</td>
+<td align="right">0.21</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td align="right">-0.003</td>
+<td align="right">1e-05</td>
+<td align="left">-0.011</td>
+<td align="right">0.0001</td>
+<td align="right">-1.13</td>
+<td align="right">0.13</td>
+</tr>
+</tbody>
+</table><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Asterisks are added automatically to highlight the level of significance
+(Significance level: *** at 99%, ** at 95%, * at 90%). 
+You can remove asterisks by setting <cite>asterisks</cite> parameter at <cite>False</cite>.</p>
+<p><cite>decimals</cite> is a list of integer setting for each column (except index) the rounding decimal. 
+You can also set one integer (e.g. <cite>decimals = 3</cite>) if you want all columns to be rounded the same.</p>
+<p>See the documentation on this <a class="reference external" href="api/eventstudy.Multiple.results">results function</a> for more details.</p>
+</div>
+<ul class="simple">
+<li><p>Get CAR distribution:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">release_10K</span><span class="o">.</span><span class="n">get_CAR_dist</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="right"></th>
+<th align="right">Mean</th>
+<th align="right">Variance</th>
+<th align="right">Kurtosis</th>
+<th align="right">Min</th>
+<th align="right">Quantile 25%</th>
+<th align="right">Quantile 50%</th>
+<th align="right">Quantile 75%</th>
+<th align="right">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">-5</td>
+<td align="right">-0.0042</td>
+<td align="right">0.0003</td>
+<td align="right">0.7127</td>
+<td align="right">-0.0463</td>
+<td align="right">-0.0098</td>
+<td align="right">-0.005</td>
+<td align="right">0.0045</td>
+<td align="right">0.0373</td>
+</tr>
+<tr>
+<td align="right">-4</td>
+<td align="right">-0.0035</td>
+<td align="right">0.0006</td>
+<td align="right">-0.1992</td>
+<td align="right">-0.0595</td>
+<td align="right">-0.0151</td>
+<td align="right">0.0006</td>
+<td align="right">0.0091</td>
+<td align="right">0.0515</td>
+</tr>
+<tr>
+<td align="right">-3</td>
+<td align="right">-0.0028</td>
+<td align="right">0.0009</td>
+<td align="right">0.0228</td>
+<td align="right">-0.0839</td>
+<td align="right">-0.0231</td>
+<td align="right">-0.0052</td>
+<td align="right">0.0185</td>
+<td align="right">0.0627</td>
+</tr>
+<tr>
+<td align="right">-2</td>
+<td align="right">-0.0052</td>
+<td align="right">0.0007</td>
+<td align="right">-0.0799</td>
+<td align="right">-0.0631</td>
+<td align="right">-0.0209</td>
+<td align="right">-0.0078</td>
+<td align="right">0.007</td>
+<td align="right">0.0574</td>
+</tr>
+<tr>
+<td align="right">-1</td>
+<td align="right">-0.0015</td>
+<td align="right">0.0012</td>
+<td align="right">0.2771</td>
+<td align="right">-0.0705</td>
+<td align="right">-0.0221</td>
+<td align="right">-0.008</td>
+<td align="right">0.0158</td>
+<td align="right">0.0868</td>
+</tr>
+<tr>
+<td align="right">0</td>
+<td align="right">0.0078</td>
+<td align="right">0.0036</td>
+<td align="right">1.5911</td>
+<td align="right">-0.1059</td>
+<td align="right">-0.0271</td>
+<td align="right">0.0022</td>
+<td align="right">0.0224</td>
+<td align="right">0.2023</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">0.0036</td>
+<td align="right">0.0043</td>
+<td align="right">1.1048</td>
+<td align="right">-0.103</td>
+<td align="right">-0.0378</td>
+<td align="right">-0.012</td>
+<td align="right">0.0212</td>
+<td align="right">0.2108</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">0.0019</td>
+<td align="right">0.0048</td>
+<td align="right">0.2683</td>
+<td align="right">-0.0974</td>
+<td align="right">-0.0383</td>
+<td align="right">-0.0163</td>
+<td align="right">0.0312</td>
+<td align="right">0.1854</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">0.001</td>
+<td align="right">0.0051</td>
+<td align="right">0.5488</td>
+<td align="right">-0.1184</td>
+<td align="right">-0.0415</td>
+<td align="right">-0.0181</td>
+<td align="right">0.0289</td>
+<td align="right">0.196</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="right">-0.0007</td>
+<td align="right">0.005</td>
+<td align="right">0.6936</td>
+<td align="right">-0.1127</td>
+<td align="right">-0.0413</td>
+<td align="right">-0.0199</td>
+<td align="right">0.0238</td>
+<td align="right">0.2054</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td align="right">-0.0044</td>
+<td align="right">0.0055</td>
+<td align="right">0.7422</td>
+<td align="right">-0.1586</td>
+<td align="right">-0.0412</td>
+<td align="right">-0.0178</td>
+<td align="right">0.0253</td>
+<td align="right">0.2121</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td align="right">-0.0087</td>
+<td align="right">0.0057</td>
+<td align="right">0.7992</td>
+<td align="right">-0.1747</td>
+<td align="right">-0.0439</td>
+<td align="right">-0.0215</td>
+<td align="right">0.0234</td>
+<td align="right">0.2106</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td align="right">-0.0087</td>
+<td align="right">0.0056</td>
+<td align="right">0.8942</td>
+<td align="right">-0.1896</td>
+<td align="right">-0.047</td>
+<td align="right">-0.0175</td>
+<td align="right">0.027</td>
+<td align="right">0.2005</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td align="right">-0.0101</td>
+<td align="right">0.0054</td>
+<td align="right">0.8968</td>
+<td align="right">-0.1736</td>
+<td align="right">-0.0481</td>
+<td align="right">-0.0172</td>
+<td align="right">0.025</td>
+<td align="right">0.2064</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td align="right">-0.0078</td>
+<td align="right">0.0052</td>
+<td align="right">0.5841</td>
+<td align="right">-0.1534</td>
+<td align="right">-0.0481</td>
+<td align="right">-0.0122</td>
+<td align="right">0.03</td>
+<td align="right">0.1969</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td align="right">-0.0113</td>
+<td align="right">0.0057</td>
+<td align="right">0.7229</td>
+<td align="right">-0.175</td>
+<td align="right">-0.0522</td>
+<td align="right">-0.0153</td>
+<td align="right">0.0227</td>
+<td align="right">0.2034</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="bonus-loop-in-event">
+<h2><a class="toc-backref" href="#id7">Bonus: Loop in event</a><a class="headerlink" href="#bonus-loop-in-event" title="Permalink to this headline">¶</a></h2>
+<p>The true strengh of this package is to use python. You can create complex algorithms to compute programatically event stuy analyses. From the same data as above, we will compute an event study of 10-K form releases for each company.</p>
+<div class="section" id="id1">
+<h3>Data preparation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>This time, we will use the <code class="docutils literal notranslate"><span class="pre">eventstudy.Multiple.from_list</span></code> method which set event list using a python list. This let the user manipulate the list of event before computing event studies.</p>
+<p>This list must contains all parameters needed to compute the selected model (here we will use the Fama-French 3-factor model). The Fama-French factors’ data has to be set using the <code class="docutils literal notranslate"><span class="pre">eventstudy.Single.import_FamaFrench</span></code> method (see preliminary step).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">events_db</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2019-10-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2018-11-05&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2017-11-03&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2016-10-26&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2015-10-28&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2014-10-27&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2013-10-30&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2012-10-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2011-10-26&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2010-10-27&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2020-02-04&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2019-02-05&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2018-02-06&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2017-02-03&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2016-02-11&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2020-01-30&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2019-01-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2018-02-01&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2016-01-28&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2015-01-29&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2014-01-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2020-01-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2019-02-01&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2018-02-02&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2017-02-10&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2016-01-29&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2015-01-30&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2013-01-30&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2012-02-01&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2011-01-28&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2010-01-29&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2019-08-01&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2018-08-03&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2017-08-02&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2016-07-28&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2015-07-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2014-07-31&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2013-07-30&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2012-07-26&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2011-07-28&#39;</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;market_ticker&#39;</span><span class="p">:</span> <span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="s1">&#39;event_date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2010-07-30&#39;</span><span class="p">)}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="event-studies-computation">
+<h3>Event studies computation<a class="headerlink" href="#event-studies-computation" title="Permalink to this headline">¶</a></h3>
+<p>Using a list comprehension, the full list of events can be filtered to create one list per company’s ticker. Then we can compute for each company, the event study using the Fama-French 3 factor model and store each event study in a <code class="docutils literal notranslate"><span class="pre">releases</span></code> dictionary.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GOOG&#39;</span><span class="p">,</span> <span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;FB&#39;</span><span class="p">,</span> <span class="s1">&#39;AMZN&#39;</span><span class="p">,</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">]</span>
+<span class="n">releases</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">tickers</span><span class="p">:</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events_db</span> <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;security_ticker&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">ticker</span><span class="p">]</span>
+    
+    <span class="n">releases</span><span class="p">[</span><span class="n">ticker</span><span class="p">]</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">Multiple</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span>
+        <span class="n">events</span><span class="p">,</span>
+        <span class="n">es</span><span class="o">.</span><span class="n">Single</span><span class="o">.</span><span class="n">FamaFrench_3factor</span><span class="p">,</span>
+        <span class="n">event_window</span><span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Display results<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ticker</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">releases</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+    <span class="n">event</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>GOOG
+<img alt="GOOG events plot" src="_images/GOOG_event_plot.png" /></p>
+<p>AAPL
+<img alt="AAPL events plot" src="_images/AAPL_event_plot.png" /></p>
+<p>FB
+<img alt="FB events plot" src="_images/FB_event_plot.png" /></p>
+<p>AMZN
+<img alt="AMZN events plot" src="_images/AMZN_event_plot.png" /></p>
+<p>MSFT
+<img alt="MSFT events plot" src="_images/MSFT_event_plot.png" /></p>
+</div>
 </div>
 </div>
 
