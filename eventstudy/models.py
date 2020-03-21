@@ -49,18 +49,24 @@ def market_model(
     keep_model: bool = False,
     **kwargs
 ):
+    if keep_model:
+        residuals, df, var_res, model = Model(estimation_size, event_window_size, keep_model).OLS(
+            market_returns, security_returns
+        )
+        var = [var_res] * event_window_size
 
-    residuals, df, var_res = Model(estimation_size, event_window_size, keep_model).OLS(
-        market_returns, security_returns
-    )
+        return residuals, df, var, model
+    else:
+        residuals, df, var_res = Model(estimation_size, event_window_size, keep_model).OLS(
+            market_returns, security_returns
+        )
+        var = [var_res] * event_window_size
+
+        return residuals, df, var
 
     # var = var_res + 1/estimation_size * (1 +
     #    ( (np.array(market_returns)[-event_window_size:] - np.mean(market_returns[:estimation_size]) )**2)
     #     /np.var(market_returns[:estimation_size]))
-
-    var = [var_res] * event_window_size
-
-    return residuals, df, var
 
 
 def FamaFrench_3factor(
@@ -83,13 +89,22 @@ def FamaFrench_3factor(
     X = np.column_stack((Mkt_RF, SMB, HML))
     Y = np.array(security_returns) - np.array(RF)
 
-    residuals, df, var_res = Model(estimation_size, event_window_size, keep_model).OLS(
-        X, Y
-    )
+    if keep_model:
+        residuals, df, var_res, model = Model(estimation_size, event_window_size, keep_model).OLS(
+            X, Y
+        )
 
-    var = [var_res] * event_window_size
+        var = [var_res] * event_window_size
 
-    return residuals, df, var
+        return residuals, df, var, model
+    else:
+        residuals, df, var_res = Model(estimation_size, event_window_size, keep_model).OLS(
+            X, Y
+        )
+
+        var = [var_res] * event_window_size
+
+        return residuals, df, var
 
 
 def constant_mean(
@@ -106,4 +121,7 @@ def constant_mean(
     df = estimation_size - 1
     var = [np.var(residuals)] * event_window_size
 
-    return residuals[-event_window_size:], df, var
+    if keep_model:
+        return residuals[-event_window_size:], df, var, mean
+    else:
+        return residuals[-event_window_size:], df, var

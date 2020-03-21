@@ -94,9 +94,10 @@ class Multiple:
         # retrieve common parameters from the first occurence in eventStudies:
         self.event_window = sample[0].event_window
         self.event_window_size = sample[0].event_window_size
-
-        self.__compute(sample)
+        self.sample = sample
         self.CAR = [event.CAR[-1] for event in sample]
+        self.__compute()
+        
 
     # def __computeByCAR(self, sample):
     #    # Deprecated, works, gives the same results than __compute but without AAR computation (which can be needed)
@@ -104,10 +105,10 @@ class Multiple:
     #    self.CAAR = 1/len(sample) * np.sum([event.CAR for event in sample], axis=0)
     #    self.var_CAAR = (1/(len(sample)**2)) * np.sum([event.var_CAR for event in sample], axis=0)
 
-    def __compute(self, sample):
-        self.AAR = 1 / len(sample) * np.sum([event.AR for event in sample], axis=0)
-        self.var_AAR = (1 / (len(sample) ** 2)) * np.sum(
-            [event.var_AR for event in sample], axis=0
+    def __compute(self):
+        self.AAR = 1 / len(self.sample) * np.sum([event.AR for event in self.sample], axis=0)
+        self.var_AAR = (1 / (len(self.sample) ** 2)) * np.sum(
+            [event.var_AR for event in self.sample], axis=0
         )
         self.CAAR = np.cumsum(self.AAR)
         self.var_CAAR = [
@@ -115,13 +116,13 @@ class Multiple:
         ]
 
         self.tstat = self.CAAR / np.sqrt(self.var_CAAR)
-        self.df = np.sum([event.df for event in sample], axis=0)
+        self.df = np.sum([event.df for event in self.sample], axis=0)
         self.pvalue = 1.0 - t.cdf(abs(self.tstat), self.df)
 
-        self.CAR_dist = self.__compute_CAR_dist(sample)
+        self.CAR_dist = self.__compute_CAR_dist()
 
-    def __compute_CAR_dist(self, sample):
-        CAR = [event.CAR for event in sample]
+    def __compute_CAR_dist(self):
+        CAR = [event.CAR for event in self.sample]
         CAR_dist = {
             "Mean": np.mean(CAR, axis=0),
             "Variance": np.var(CAR, axis=0),
@@ -351,7 +352,6 @@ class Multiple:
         buffer_size: int = 30,
         *,
         date_format: str = "%Y-%m-%d",
-        keep_single: bool = False,
         keep_model: bool = False,
         ignore_errors: bool = True,
     ):
@@ -381,9 +381,6 @@ class Multiple:
             Format of the date provided in the event_date column, by default "%Y-%m-%d".
             Refer to datetime standard library for more details date_format: 
             https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
-        keep_single : bool, optional
-            If true each single event study will be stored in memory in a list. 
-            They will be accessible through the class attributes eventStudy.Multiple.singles, by default False
         keep_model : bool, optional
             If true the model used to compute each single event study will be stored in memory.
             They will be accessible through the class attributes eventStudy.Multiple.singles[n].model, by default False
@@ -412,7 +409,7 @@ class Multiple:
         >>> agg = eventstudy.Multiple.from_text(
         ...     text = text,
         ...     event_study_model = eventstudy.Single.market_model,
-        ...     event_window = (-5+10),
+        ...     event_window = (-5,+10),
         ...     date_format = "%d/%m/%Y"
         ... ) 
         """
@@ -445,7 +442,6 @@ class Multiple:
         estimation_size: int = 300,
         buffer_size: int = 30,
         *,
-        keep_single: bool = False,
         keep_model: bool = False,
         ignore_errors: bool = True,
     ):
@@ -469,9 +465,6 @@ class Multiple:
             Size of the estimation for the modelisation of returns [T0,T1], by default 300
         buffer_size : int, optional
             Size of the buffer window [T1,T2], by default 30
-        keep_single : bool, optional
-            If true each single event study will be stored in memory in a list. 
-            They will be accessible through the class attributes eventStudy.Multiple.singles, by default False
         keep_model : bool, optional
             If true the model used to compute each single event study will be stored in memory.
             They will be accessible through the class attributes eventStudy.Multiple.singles[n].model, by default False
@@ -500,7 +493,7 @@ class Multiple:
         >>> agg = eventstudy.Multiple.from_list(
         ...     text = list,
         ...     event_study_model = eventstudy.Single.FamaFrench_3factor,
-        ...     event_window = (-5+10),
+        ...     event_window = (-5,+10),
         ... ) 
         """
 
@@ -541,7 +534,6 @@ class Multiple:
         buffer_size: int = 30,
         *,
         date_format: str = "%Y%m%d",
-        keep_single: bool = False,
         keep_model: bool = False,
         ignore_errors: bool = True,
     ):
@@ -571,9 +563,6 @@ class Multiple:
             Format of the date provided in the event_date column, by default "%Y-%m-%d".
             Refer to datetime standard library for more details date_format: 
             https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
-        keep_single : bool, optional
-            If true each single event study will be stored in memory in a list. 
-            They will be accessible through the class attributes eventStudy.Multiple.singles, by default False
         keep_model : bool, optional
             If true the model used to compute each single event study will be stored in memory.
             They will be accessible through the class attributes eventStudy.Multiple.singles[n].model, by default False
@@ -596,7 +585,7 @@ class Multiple:
         >>> agg = eventstudy.Multiple.from_csv(
         ...     path = 'events.csv',
         ...     event_study_model = eventstudy.Single.market_model,
-        ...     event_window = (-5+10),
+        ...     event_window = (-5,+10),
         ...     date_format = "%d/%m/%Y"
         ... ) 
         """

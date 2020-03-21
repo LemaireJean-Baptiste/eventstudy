@@ -40,6 +40,8 @@ class Single:
         estimation_size: int = 300,
         buffer_size: int = 30,
         keep_model: bool = False,
+        description: str = None,
+        event_date: np.datetime64 = None
     ):
         """
         Low-level (complex) way of runing an event study. Prefer the simpler use of model methods.
@@ -87,6 +89,7 @@ class Single:
         self.event_window_size = -event_window[0] + event_window[1] + 1
         self.estimation_size = estimation_size
         self.buffer_size = buffer_size
+        self.event_Date = event_date
 
         model = model_func(
             **model_data,
@@ -430,6 +433,7 @@ class Single:
             estimation_size,
             buffer_size,
         )
+        description = f"Market model estimation, Security: {security_ticker}, Market: {market_ticker}"
 
         return cls(
             market_model,
@@ -438,6 +442,8 @@ class Single:
             estimation_size=estimation_size,
             buffer_size=buffer_size,
             keep_model=keep_model,
+            description= description,
+            event_date=event_date
         )
 
     @classmethod
@@ -503,7 +509,9 @@ class Single:
             estimation_size,
             buffer_size,
         )
-
+        
+        description = f"Constant mean estimation, Security: {security_ticker}"
+        
         return cls(
             constant_mean,
             {"security_returns": security_returns},
@@ -511,6 +519,8 @@ class Single:
             estimation_size=estimation_size,
             buffer_size=buffer_size,
             keep_model=keep_model,
+            description=description,
+            event_date=event_date 
         )
 
     @classmethod
@@ -591,7 +601,9 @@ class Single:
             estimation_size,
             buffer_size,
         )
-
+        
+        description = f"Fama-French 3-factor model estimation, Security: {security_ticker}"
+        
         return cls(
             FamaFrench_3factor,
             {
@@ -605,4 +617,6 @@ class Single:
             estimation_size=estimation_size,
             buffer_size=buffer_size,
             keep_model=keep_model,
+            description=description,
+            event_date=event_date
         )
