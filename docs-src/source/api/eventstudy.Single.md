@@ -20,6 +20,7 @@ Run the event study
     eventstudy.Single.market_model
     eventstudy.Single.constant_mean
     eventstudy.Single.FamaFrench_3factor
+    eventstudy.Single.FamaFrench_5factor
 
 
 Import data

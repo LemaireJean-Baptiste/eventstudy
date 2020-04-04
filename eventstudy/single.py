@@ -620,3 +620,103 @@ class Single:
             description=description,
             event_date=event_date
         )
+
+    @classmethod
+    def FamaFrench_5factor(
+        cls,
+        security_ticker,
+        event_date: np.datetime64,
+        event_window: tuple = (-10, +10),
+        estimation_size: int = 300,
+        buffer_size: int = 30,
+        keep_model: bool = False,
+        **kwargs
+    ):
+        """
+        Modelise returns with the Fama-French 5-factor model.
+        The model used is the one developped in Fama and French (1992) [1]_.
+        
+        Parameters
+        ----------
+        security_ticker : str
+            Ticker of the security (e.g. company stock) as given in the returns imported.
+        event_date : np.datetime64
+            Date of the event in numpy.datetime64 format.
+        event_window : tuple, optional
+            Event window specification (T2,T3), by default (-10, +10).
+            A tuple of two integers, representing the start and the end of the event window. 
+            Classically, the event-window starts before the event and ends after the event.
+            For example, `event_window = (-2,+20)` means that the event-period starts
+            2 periods before the event and ends 20 periods after.
+        estimation_size : int, optional
+            Size of the estimation for the modelisation of returns [T0,T1], by default 300
+        buffer_size : int, optional
+            Size of the buffer window [T1,T2], by default 30
+        keep_model : bool, optional
+            If true the model used to compute the event study will be stored in memory.
+            It will be accessible through the class attributes eventstudy.Single.model, by default False
+        **kwargs
+            Additional keywords have no effect but might be accepted to avoid freezing 
+            if there are not needed parameters specified.
+            For example, if market_ticker is specified.
+        
+        See also
+        -------
+        market_model, constant_mean
+
+        Example
+        -------
+
+        Run an event study for the Apple company for the announcement of the first iphone,
+        based on the Fama-French 5-factor model.
+
+        >>> event = EventStudy.FamaFrench_5factor(
+        ...     security_ticker = 'AAPL',
+        ...     event_date = np.datetime64('2007-01-09'),
+        ...     event_window = (-5,+20)
+        ... )
+
+        References
+        ----------
+        .. [1] Fama, E. F. and K. R. French (1992). 
+            “The Cross-Section of Expected Stock Returns”.
+            In: The Journal of Finance 47.2, pp. 427–465.
+        """
+
+        (security_returns,) = cls._get_parameters(
+            "returns",
+            (security_ticker,),
+            event_date,
+            event_window,
+            estimation_size,
+            buffer_size,
+        )
+        Mkt_RF, SMB, HML, RF = cls._get_parameters(
+            "FamaFrench",
+            ("Mkt-RF", "SMB", "HML", "RMW", "CMA", "RF"),
+            event_date,
+            event_window,
+            estimation_size,
+            buffer_size,
+        )
+        
+        description = f"Fama-French 5-factor model estimation, Security: {security_ticker}"
+        
+        return cls(
+            FamaFrench_5factor,
+            {
+                "security_returns": security_returns,
+                "Mkt_RF": Mkt_RF,
+                "SMB": SMB,
+                "HML": HML,
+                "RMW": RMW,
+                "CMA": CMA,
+                "RF": RF,
+            },
+            event_window=event_window,
+            estimation_size=estimation_size,
+            buffer_size=buffer_size,
+            keep_model=keep_model,
+            description=description,
+            event_date=event_date
+        )

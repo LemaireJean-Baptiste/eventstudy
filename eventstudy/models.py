@@ -125,3 +125,43 @@ def constant_mean(
         return residuals[-event_window_size:], df, var, mean
     else:
         return residuals[-event_window_size:], df, var
+
+
+def FamaFrench_5factor(
+    security_returns,
+    Mkt_RF,
+    SMB,
+    HML,
+    RMW,
+    CMA,
+    RF,
+    *,  # Named arguments only
+    estimation_size: int,
+    event_window_size: int,
+    keep_model: bool = False,
+    **kwargs
+):
+
+    RF = np.array(RF)
+    Mkt_RF = np.array(Mkt_RF)
+    security_returns = np.array(security_returns)
+
+    X = np.column_stack((Mkt_RF, SMB, HML, RMW, CMA))
+    Y = np.array(security_returns) - np.array(RF)
+
+    if keep_model:
+        residuals, df, var_res, model = Model(estimation_size, event_window_size, keep_model).OLS(
+            X, Y
+        )
+
+        var = [var_res] * event_window_size
+
+        return residuals, df, var, model
+    else:
+        residuals, df, var_res = Model(estimation_size, event_window_size, keep_model).OLS(
+            X, Y
+        )
+
+        var = [var_res] * event_window_size
+
+        return residuals, df, var
