@@ -12,6 +12,7 @@ from .single import Single
 from .multiple import Multiple
 
 import tempfile
+import numpy as np
 
 def print_table(wb, ws, row: int, col: int, data: dict, title: str = None):
     f_title = wb.add_format({"italic": 1})
@@ -48,22 +49,26 @@ def write_summary(self, type:str, wb, sheet_name = 'summary', *, chart_as_pictur
     # Table Summary
     ws.write(0, 0, "Specification", f_h2)
     ws.write(2, 0, "Description", f_t_sum)
-    ws.write(2, 1, self.description)
-    ws.write(3, 0, "Event date", f_t_sum)
-    ws.write(3, 1, self.event_date)
-    ws.write(4, 0, "Event window start", f_t_sum)
-    ws.write(4, 1, self.event_window[0])
-    ws.write(5, 0, "Event window end", f_t_sum)
-    ws.write(5, 1, self.event_window[1])
-    ws.write(6, 0, "Estimation size", f_t_sum)
-    ws.write(6, 1, self.estimation_size)
-    ws.write(6, 0, "Estimation size", f_t_sum)
-    ws.write(6, 1, self.estimation_size)
+    if self.description:
+        ws.write(2, 1, self.description)
+    else:
+        ws.write(2, 1, "no description")
 
 
 
     # Table of results
     if type == 'Single':
+        ws.write(3, 0, "Event date", f_t_sum)
+        ws.write(3, 1, np.datetime_as_string(self.event_date,))
+        ws.write(4, 0, "Event window start", f_t_sum)
+        ws.write(4, 1, self.event_window[0])
+        ws.write(5, 0, "Event window end", f_t_sum)
+        ws.write(5, 1, self.event_window[1])
+        ws.write(6, 0, "Estimation size", f_t_sum)
+        ws.write(6, 1, self.estimation_size)
+        ws.write(6, 0, "Estimation size", f_t_sum)
+        ws.write(6, 1, self.estimation_size)
+
         results = {
             "#": range(self.event_window[0], self.event_window[1] + 1),
             "AR": self.AR,
@@ -84,7 +89,7 @@ def write_summary(self, type:str, wb, sheet_name = 'summary', *, chart_as_pictur
             "P-value": self.pvalue,
         }
 
-    last_row, last_col = print_table(wb, ws, 2, 0, results, "Table of results")
+    last_row, last_col = print_table(wb, ws, 8, 0, results, "Table of results")
 
     # Display chart
     if type == 'Single': ws.write(2, last_col + 2, "Graph of CAR", f_h2)
@@ -100,9 +105,9 @@ def write_summary(self, type:str, wb, sheet_name = 'summary', *, chart_as_pictur
         CAR_chart = wb.add_chart({"type": "line"})
         CAR_chart.add_series(
             {
-                "categories": [ws.name, 4, 0, last_row, 0],
-                "values": [ws.name, 4, 3, last_row, 3],
-                "name": [ws.name, 3, 3],
+                "categories": [ws.name, 10, 0, last_row, 0],
+                "values": [ws.name, 10, 3, last_row, 3],
+                "name": [ws.name, 9, 3],
                 "line": {"width": 1},
             }
         )
@@ -110,9 +115,9 @@ def write_summary(self, type:str, wb, sheet_name = 'summary', *, chart_as_pictur
         AR_chart = wb.add_chart({"type": "column"})
         AR_chart.add_series(
             {
-                "categories": [ws.name, 4, 0, last_row, 0],
-                "values": [ws.name, 4, 1, last_row, 1],
-                "name": [ws.name, 3, 1],
+                "categories": [ws.name, 10, 0, last_row, 0],
+                "values": [ws.name, 10, 1, last_row, 1],
+                "name": [ws.name, 9, 1],
                 "gap": 500,
                 "fill": {"color": "#000000"},
             }

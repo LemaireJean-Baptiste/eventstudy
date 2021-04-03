@@ -3,7 +3,7 @@ import pandas as pd
 from scipy.stats import t
 
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import MaxNLocator
 
 from collections import defaultdict
 from csv import DictReader
@@ -54,7 +54,7 @@ def plot(time, CAR, *, AR=None, CI=False, var=None, df=None, confidence=0.90):
     ax.axvline(
         x=0, color="black", linewidth=0.5,
     )
-    ax.xaxis.set_major_formatter(FuncFormatter("{:.0f}".format))
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     if CI:
         delta = np.sqrt(var) * t.ppf(confidence, df)

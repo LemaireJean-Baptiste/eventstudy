@@ -9,7 +9,7 @@ import logging
 
 import numpy as np
 import statsmodels.api as sm
-from scipy.stats import t, kurtosis
+from scipy.stats import t, kurtosis, skew
 import datetime
 
 
@@ -34,7 +34,7 @@ class Multiple:
     .. [1] Mackinlay, A. (1997). “Event Studies in Economics and Finance”.
         In: Journal of Economic Literature 35.1, p. 13.
     """
-    def __init__(self, sample: list, errors=None):
+    def __init__(self, sample: list, errors=None, description: str = None):
         """
         Low-level (complex) way of runing an aggregate of event studies.
 
@@ -96,6 +96,7 @@ class Multiple:
         self.event_window_size = sample[0].event_window_size
         self.sample = sample
         self.CAR = [event.CAR[-1] for event in sample]
+        self.description = description
         self.__compute()
         
 
@@ -127,6 +128,7 @@ class Multiple:
             "Mean": np.mean(CAR, axis=0),
             "Variance": np.var(CAR, axis=0),
             "Kurtosis": kurtosis(CAR, axis=0),
+            "Skewness": skew(CAR, axis=0),
             "Min": np.min(CAR, axis=0),
             "Quantile 25%": np.quantile(CAR, q=0.25, axis=0),
             "Quantile 50%": np.quantile(CAR, q=0.5, axis=0),
@@ -215,13 +217,13 @@ class Multiple:
         """
         columns = {
             "AAR": self.AAR,
-            "Variance AAR": self.var_AAR,
+            "Std. E. AAR": np.sqrt(self.var_AAR),
             "CAAR": self.CAAR,
-            "Variance CAAR": self.var_CAAR,
+            "Std. E. CAAR": np.sqrt(self.var_CAAR),
             "T-stat": self.tstat,
             "P-value": self.pvalue,
         }
-
+        
         asterisks_dict = {"pvalue": "P-value", "where": "CAAR"} if asterisks else None
 
         return to_table(
@@ -317,21 +319,21 @@ class Multiple:
         ... )
         >>> events.get_CAR_dist(decimals = 4)
 
-        ====  ======  ==========  ==========  ======  ==============  ==============  ==============  =====
-          ..    Mean    Variance    Kurtosis     Min    Quantile 25%    Quantile 50%    Quantile 75%    Max
-        ====  ======  ==========  ==========  ======  ==============  ==============  ==============  =====
-          -5  -0           0.001       0.061  -0.052          -0.014           0.001           0.015  0.047
-          -4  -0.003       0.001       0.247  -0.091          -0.022           0.003           0.015  0.081
-          -3   0.007       0.002       0.532  -0.082          -0.026           0.006           0.027  0.139
-          -2   0.01        0.002      -0.025  -0.088          -0.021           0.002           0.033  0.115
-          -1   0.018       0.003      -0.065  -0.091          -0.012           0.02            0.041  0.138
-           0   0.018       0.003      -0.724  -0.084          -0.012           0.012           0.057  0.128
-           1   0.012       0.004      -0.613  -0.076          -0.024           0.003           0.059  0.143
-           2   0.017       0.005      -0.55   -0.117          -0.026           0.024           0.057  0.156
-           3   0.018       0.005       0.289  -0.162          -0.032           0.027           0.057  0.17
-           4   0.011       0.007       2.996  -0.282          -0.039           0.035           0.052  0.178
-           5   0.012       0.008       1.629  -0.266          -0.05            0.035           0.064  0.174
-        ====  ======  ==========  ==========  ======  ==============  ==============  ==============  =====
+        ====  ======  ==========  ========== ==========  ======  ==============  ==============  ==============  =====
+          ..    Mean    Variance    Kurtosis Skewness       Min    Quantile 25%    Quantile 50%    Quantile 75%    Max
+        ====  ======  ==========  ========== ==========  ======  ==============  ==============  ==============  =====
+          -5  -0           0.001       0.061      0.301  -0.052          -0.014           0.001           0.015  0.047
+          -4  -0.003       0.001       0.247      0.447  -0.091          -0.022           0.003           0.015  0.081
+          -3   0.007       0.002       0.532      0.982  -0.082          -0.026           0.006           0.027  0.139
+          -2   0.01        0.002      -0.025     -0.235  -0.088          -0.021           0.002           0.033  0.115
+          -1   0.018       0.003      -0.065     -0.545  -0.091          -0.012           0.02            0.041  0.138
+           0   0.018       0.003      -0.724     -0.344  -0.084          -0.012           0.012           0.057  0.128
+           1   0.012       0.004      -0.613     -0.233  -0.076          -0.024           0.003           0.059  0.143
+           2   0.017       0.005      -0.55      -0.345   -0.117          -0.026           0.024           0.057  0.156
+           3   0.018       0.005       0.289      0.223  -0.162          -0.032           0.027           0.057  0.17
+           4   0.011       0.007       2.996      0.243  -0.282          -0.039           0.035           0.052  0.178
+           5   0.012       0.008       1.629      0.543  -0.266          -0.05            0.035           0.064  0.174
+        ====  ======  ==========  ========== ==========  ======  ==============  ==============  ==============  =====
 
         Note
         ----
@@ -620,8 +622,8 @@ class Multiple:
                     msg = f"One event has not been processed due to data issues."
 
                 msg += (
-                    "\nTips: Get more details on errors by calling EventStudyBatch.error_report() method"
-                    " or by exploring EventStudyBatch.errors class variable."
+                    "\nTips: Get more details on errors by calling Multiple.error_report() method"
+                    " or by exploring Multiple.errors class variable."
                 )
                 logging.warning(msg)
 

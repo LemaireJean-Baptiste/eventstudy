@@ -18,7 +18,8 @@ setuptools.setup(
     long_description=readme(),
     long_description_content_type="text/markdown",
     url="https://github.com/LemaireJean-Baptiste/eventstudy",
-    packages=get_dependencies(),
+    packages=setuptools.find_packages(),
+    install_requires=get_dependencies(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

@@ -10,7 +10,7 @@ import numpy as np
 import statsmodels.api as sm
 from scipy.stats import t
 
-from .models import market_model, FamaFrench_3factor, constant_mean
+from .models import market_model, FamaFrench_3factor, FamaFrench_5factor, constant_mean
 
 
 class Single:
@@ -36,12 +36,12 @@ class Single:
         self,
         model_func,
         model_data: dict,
+        event_date: np.datetime64 = None,
         event_window: tuple = (-10, +10),
         estimation_size: int = 300,
         buffer_size: int = 30,
         keep_model: bool = False,
-        description: str = None,
-        event_date: np.datetime64 = None
+        description: str = None
     ):
         """
         Low-level (complex) way of runing an event study. Prefer the simpler use of model methods.
@@ -52,6 +52,8 @@ class Single:
             Function computing the modelisation of returns.
         model_data : dict
             Dictionary containing all parameters needed by `model_func`.
+        event_date : np.datetime64
+            Date of the event in numpy.datetime64 format.
         event_window : tuple, optional
             Event window specification (T2,T3), by default (-10, +10).
             A tuple of two integers, representing the start and the end of the event window. 
@@ -85,11 +87,12 @@ class Single:
         ...     {'security_returns':[0.032,-0.043,...], 'market_returns':[0.012,-0.04,...]}
         ... )
         """
+        self.event_date = event_date
         self.event_window = event_window
         self.event_window_size = -event_window[0] + event_window[1] + 1
         self.estimation_size = estimation_size
         self.buffer_size = buffer_size
-        self.event_Date = event_date
+        self.description = description
 
         model = model_func(
             **model_data,
@@ -180,9 +183,9 @@ class Single:
 
         columns = {
             "AR": self.AR,
-            "Variance AR": self.var_AR,
+            "Std. E. AR": np.sqrt(self.var_AR),
             "CAR": self.CAR,
-            "Variance CAR": self.var_CAR,
+            "Std. E. CAR": np.sqrt(self.var_CAR),
             "T-stat": self.tstat,
             "P-value": self.pvalue,
         }
@@ -330,6 +333,8 @@ class Single:
                         data[key] = np.diff(np.log(data[key]))
                     else:
                         data[key] = np.diff(data[key]) / data[key][1:]
+                else:
+                    data[key] = data[key][1:] #remove the first date
 
         cls._save_parameter("returns", data)
 
@@ -691,7 +696,7 @@ class Single:
             estimation_size,
             buffer_size,
         )
-        Mkt_RF, SMB, HML, RF = cls._get_parameters(
+        Mkt_RF, SMB, HML, RMW, CMA, RF = cls._get_parameters(
             "FamaFrench",
             ("Mkt-RF", "SMB", "HML", "RMW", "CMA", "RF"),
             event_date,
