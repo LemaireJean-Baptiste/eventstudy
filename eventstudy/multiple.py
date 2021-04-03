@@ -118,7 +118,7 @@ class Multiple:
 
         self.tstat = self.CAAR / np.sqrt(self.var_CAAR)
         self.df = np.sum([event.df for event in self.sample], axis=0)
-        self.pvalue = 1.0 - t.cdf(abs(self.tstat), self.df)
+        self.pvalue = (1.0 - t.cdf(abs(self.tstat), self.df)) * 2
 
         self.CAR_dist = self.__compute_CAR_dist()
 

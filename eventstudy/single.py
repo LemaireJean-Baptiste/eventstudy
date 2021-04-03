@@ -112,7 +112,7 @@ class Single:
         self.CAR = np.cumsum(self.AR)
         self.var_CAR = [(i * var) for i, var in enumerate(self.var_AR, 1)]
         self.tstat = self.CAR / np.sqrt(self.var_CAR)
-        self.pvalue = 1.0 - t.cdf(abs(self.tstat), self.df)
+        self.pvalue = (1.0 - t.cdf(abs(self.tstat), self.df)) * 2
 
     def results(self, asterisks: bool = True, decimals=3):
         """
